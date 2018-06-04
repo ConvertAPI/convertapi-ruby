@@ -1,4 +1,4 @@
-# ConvertApi
+# ConvertApi Ruby Client
 
 ## Installation
 
