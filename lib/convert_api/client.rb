@@ -9,6 +9,17 @@ module ConvertApi
       end
     end
 
+    def upload(io, filename)
+      handle_exceptions do
+        result = connection.post('upload', io.read) do |request|
+          request.headers['Content-Type'] = 'application/octet-stream'
+          request.headers['Content-Disposition'] = "attachment; filename='#{filename}'"
+        end
+
+        result.body
+      end
+    end
+
     private
 
     def handle_exceptions
@@ -28,7 +39,6 @@ module ConvertApi
         builder.params['TimeOut'] = config.conversion_timeout
         builder.params['StoreFile'] = true
 
-        builder.request :multipart
         builder.request :url_encoded
 
         builder.response :json, content_type: /\bjson$/

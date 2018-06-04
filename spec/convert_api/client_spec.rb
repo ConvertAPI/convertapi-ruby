@@ -1,28 +1,28 @@
 RSpec.describe ConvertApi::Client do
   before { ConvertApi.config.api_secret = ENV['CONVERT_API_SECRET'] }
 
+  let(:client) { described_class.new }
+
   describe '#post' do
-    subject { described_class.new.post(path, params) }
+    subject { client.post(path, params) }
 
     let(:path) { 'txt/to/pdf' }
     let(:params) { { File: file } }
+    let(:file) { 'https://www.w3.org/TR/PNG/iso_8859-1.txt' }
 
-    shared_examples 'converting file' do
-      it 'sends request and returns result' do
-        expect(subject['ConversionCost']).to be_instance_of(Integer)
-        expect(subject['Files']).to be_instance_of(Array)
-      end
+    it 'sends request and returns result' do
+      expect(subject['ConversionCost']).to be_instance_of(Integer)
+      expect(subject['Files']).to be_instance_of(Array)
     end
+  end
 
-    context 'with local file' do
-      let(:file) { Faraday::UploadIO.new('LICENSE.txt', 'application/octet-stream') }
+  describe '#upload' do
+    subject { client.upload(io, File.basename(io.path)) }
 
-      it_behaves_like 'converting file'
-    end
+    let(:io) { File.open('LICENSE.txt') }
 
-    context 'with url as file' do
-      let(:file) { 'https://www.w3.org/TR/PNG/iso_8859-1.txt' }
-      it_behaves_like 'converting file'
+    it 'uploads file and results result' do
+      expect(subject['FileId']).to be_instance_of(String)
     end
   end
 end

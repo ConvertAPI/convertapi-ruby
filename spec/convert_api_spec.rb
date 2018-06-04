@@ -4,7 +4,6 @@ RSpec.describe ConvertApi do
   end
 
   it 'has configuration defaults' do
-    expect(described_class.config.api_secret).to be_nil
     expect(described_class.config.api_base_uri).not_to be_nil
     expect(described_class.config.connect_timeout).not_to be_nil
     expect(described_class.config.conversion_timeout).not_to be_nil
