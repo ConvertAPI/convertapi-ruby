@@ -1,6 +1,4 @@
 RSpec.describe ConvertApi::Client do
-  before { ConvertApi.config.api_secret = ENV['CONVERT_API_SECRET'] }
-
   let(:client) { described_class.new }
 
   describe '#post' do

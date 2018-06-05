@@ -26,18 +26,17 @@ RSpec.describe ConvertApi do
     end
   end
 
-  describe '.convert_async' do
-    subject { described_class.convert_async(from_format, to_format, params) }
+  describe '.convert' do
+    subject { described_class.convert(from_format, to_format, resource, params) }
 
-    let(:from_format) { 'doc' }
+    let(:from_format) { 'txt' }
     let(:to_format) { 'pdf' }
+    let(:resource) { 'LICENSE.txt' }
     let(:params) { {} }
 
-    it 'returns task' do
-      expect(subject).to be_instance_of(ConvertApi::Task)
-      expect(subject.from_format).to eq(from_format)
-      expect(subject.to_format).to eq(to_format)
-      expect(subject.params).to eq(params)
+    it 'returns result' do
+      expect(subject).to be_instance_of(ConvertApi::Result)
+      expect(subject.conversion_cost).to be_instance_of(Integer)
     end
   end
 

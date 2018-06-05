@@ -3,6 +3,8 @@ require 'convert_api/configuration'
 require 'convert_api/task'
 require 'convert_api/client'
 require 'convert_api/errors'
+require 'convert_api/result'
+require 'convert_api/upload_io'
 
 module ConvertApi
   module_function
@@ -15,8 +17,8 @@ module ConvertApi
     @config ||= Configuration.new
   end
 
-  def convert_async(from_format, to_format, params)
-    Task.new(from_format, to_format, params)
+  def convert(from_format, to_format, resource, params = {})
+    Task.new(from_format, to_format, resource, params).result
   end
 
   def client
