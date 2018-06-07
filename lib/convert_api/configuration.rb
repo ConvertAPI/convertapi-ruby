@@ -14,7 +14,7 @@ module ConvertApi
       @connect_timeout = 5
       @conversion_timeout = 600
       @upload_timeout = 600
-      @download_timeout = 600
+      @download_timeout = 0.600
     end
 
     def request_timeout

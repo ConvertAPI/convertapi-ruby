@@ -37,6 +37,7 @@ RSpec.describe ConvertApi do
     it 'returns result' do
       expect(subject).to be_instance_of(ConvertApi::Result)
       expect(subject.conversion_cost).to be_instance_of(Integer)
+      # subject.save_files('/tmp')
     end
   end
 

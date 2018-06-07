@@ -1,5 +1,6 @@
 require 'faraday'
 require 'faraday_middleware'
+require 'open-uri'
 
 module ConvertApi
   class Client
@@ -18,6 +19,16 @@ module ConvertApi
 
         result.body
       end
+    end
+
+    def download(url, path)
+      io = open(url, open_timeout: config.connect_timeout, read_timeout: config.download_timeout)
+
+      IO.copy_stream(io, path)
+
+      path
+    rescue Net::ReadTimeout
+      raise(DownloadTimeoutError, 'Download timeout')
     end
 
     private
