@@ -16,15 +16,20 @@ module ConvertApi
     private
 
     def response
-      ConvertApi.client.post(path, params_with_file)
+      ConvertApi.client.post(path, adjusted_params)
     end
 
     def path
-      "#{from_format}/to/#{to_format}"
+      "/#{from_format}/to/#{to_format}"
     end
 
-    def params_with_file
-      params.merge(file_param)
+    def adjusted_params
+      params
+        .merge(
+          'TimeOut' => ConvertApi.config.conversion_timeout,
+          'StoreFile' => true,
+        )
+        .merge(file_param)
     end
 
     def file_param

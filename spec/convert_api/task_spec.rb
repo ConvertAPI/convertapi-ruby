@@ -12,7 +12,7 @@ RSpec.describe ConvertApi::Task do
 
     it 'executes task and returns result' do
       expect(ConvertApi.client)
-        .to receive(:post).with('txt/to/pdf', instance_of(Hash)).and_return(result)
+        .to receive(:post).with('/txt/to/pdf', instance_of(Hash)).and_return(result)
 
       expect(subject).to be_instance_of(ConvertApi::Result)
     end

@@ -1,62 +1,90 @@
-require 'faraday'
-require 'faraday_middleware'
+require 'net/https'
+require 'uri'
 require 'open-uri'
 
 module ConvertApi
   class Client
     def post(path, params)
-      handle_exceptions do
-        connection.post(path, params).body
+      handle_response do
+        headers = { 'Accept' => 'application/json' }
+        request = Net::HTTP::Post.new(uri_with_secret(path), headers)
+        request.form_data = params
+
+        http.request(request)
       end
     end
 
     def upload(io, filename)
-      handle_exceptions do
-        result = connection.post('upload', io.read) do |request|
-          request.headers['Content-Type'] = 'application/octet-stream'
-          request.headers['Content-Disposition'] = "attachment; filename='#{filename}'"
-        end
+      handle_response do
+        encoded_filename = URI.encode(filename)
 
-        result.body
+        headers = {
+          'Content-Type' => 'application/octet-stream',
+          'Accept' => 'application/json',
+          'Transfer-Encoding' => 'chunked',
+          'Content-Disposition' => "attachment; filename*=UTF-8''#{encoded_filename}",
+        }
+
+        request = Net::HTTP::Post.new('/upload', headers)
+        request.body_stream = io
+
+        connection = http
+        connection.read_timeout = config.upload_timeout
+        connection.request(request)
       end
     end
 
     def download(url, path)
-      io = open(url, open_timeout: config.connect_timeout, read_timeout: config.download_timeout)
+      handle_http_exceptions do
+        io = open(url, open_timeout: config.connect_timeout, read_timeout: config.download_timeout)
 
-      IO.copy_stream(io, path)
+        IO.copy_stream(io, path)
 
-      path
-    rescue Net::ReadTimeout
-      raise(DownloadTimeoutError, 'Download timeout')
+        path
+      end
     end
 
     private
 
-    def handle_exceptions
-      yield
-    rescue Faraday::ClientError => e
-      raise(ClientError, e.response)
+    def handle_response
+      handle_http_exceptions do
+        response = yield
+        status = response.code.to_i
+
+        if status != 200
+          raise(
+            ClientError,
+            status: status,
+            body: response.body,
+            headers: response.each_header.to_h,
+          )
+        end
+
+        JSON.parse(response.body)
+      end
     end
 
-    def connection
-      @connection = Faraday.new(url: config.api_base_uri) do |builder|
-        builder.options[:timeout] = config.request_timeout
-        builder.options[:open_timeout] = config.connect_timeout
+    def handle_http_exceptions
+      yield
+    rescue Net::ReadTimeout
+      raise(TimeoutError, 'Read timeout')
+    end
 
-        builder.headers['Accept'] = 'application/json'
+    def http
+      http = Net::HTTP.new(base_uri.host, base_uri.port)
+      http.use_ssl = base_uri.scheme == 'https'
+      http.open_timeout = config.connect_timeout
+      http.read_timeout = config.request_timeout
+      # http.set_debug_output $stderr
+      http
+    end
 
-        builder.params['Secret'] = config.api_secret
-        builder.params['TimeOut'] = config.conversion_timeout
-        builder.params['StoreFile'] = true
+    def base_uri
+      @base_uri ||= URI(config.api_base_uri)
+    end
 
-        builder.request :url_encoded
-
-        builder.response :json, content_type: /\bjson$/
-        builder.response :raise_error
-
-        builder.adapter Faraday.default_adapter
-      end
+    def uri_with_secret(path)
+      path + '?Secret=' + config.api_secret
     end
 
     def config

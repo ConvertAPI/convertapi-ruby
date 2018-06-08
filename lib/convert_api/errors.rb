@@ -4,7 +4,7 @@ module ConvertApi
   class Error < StandardError; end
 
   class FileNameError < Error; end
-  class DownloadTimeoutError < Error; end
+  class TimeoutError < Error; end
 
   class ClientError < Error
     attr_reader :response
