@@ -1,9 +1,26 @@
 require 'net/https'
 require 'uri'
 require 'open-uri'
+require 'json'
 
 module ConvertApi
   class Client
+    NET_HTTP_EXCEPTIONS = [
+      IOError,
+      Errno::ECONNABORTED,
+      Errno::ECONNREFUSED,
+      Errno::ECONNRESET,
+      Errno::EHOSTUNREACH,
+      Errno::EINVAL,
+      Errno::ENETUNREACH,
+      Errno::EPIPE,
+      Net::HTTPBadResponse,
+      Net::HTTPHeaderSyntaxError,
+      Net::ProtocolError,
+      SocketError,
+      Zlib::GzipFile::Error,
+    ]
+
     def post(path, params)
       handle_response do
         headers = { 'Accept' => 'application/json' }
@@ -64,8 +81,10 @@ module ConvertApi
 
     def handle_http_exceptions
       yield
-    rescue Net::ReadTimeout
-      raise(TimeoutError, 'Read timeout')
+    rescue *NET_HTTP_EXCEPTIONS => e
+      raise(ConnectionFailed, e)
+    rescue Timeout::Error, Errno::ETIMEDOUT => e
+      raise(TimeoutError, e)
     end
 
     def http(read_timeout: nil)

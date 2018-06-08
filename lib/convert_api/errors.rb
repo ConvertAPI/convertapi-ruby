@@ -1,11 +1,9 @@
-require 'json'
-
 module ConvertApi
   class Error < StandardError; end
-
   class SecretError < Error; end
   class FileNameError < Error; end
   class TimeoutError < Error; end
+  class ConnectionFailed < Error; end
 
   class ClientError < Error
     attr_reader :response
