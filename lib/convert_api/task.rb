@@ -16,14 +16,14 @@ module ConvertApi
     private
 
     def response
-      ConvertApi.client.post(path, adjusted_params)
+      ConvertApi.client.post(path, conversion_params)
     end
 
     def path
       "/#{from_format}/to/#{to_format}"
     end
 
-    def adjusted_params
+    def conversion_params
       params
         .merge(
           'TimeOut' => ConvertApi.config.conversion_timeout,

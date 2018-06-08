@@ -34,13 +34,13 @@ module ConvertApi
       end
     end
 
-    def download(url, path)
+    def download(url, dst)
       handle_http_exceptions do
         io = open(url, open_timeout: config.connect_timeout, read_timeout: config.download_timeout)
 
-        IO.copy_stream(io, path)
+        IO.copy_stream(io, dst)
 
-        path
+        dst
       end
     end
 
