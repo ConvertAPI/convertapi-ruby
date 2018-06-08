@@ -16,11 +16,10 @@ module ConvertApi
     private
 
     def response
-      ConvertApi.client.post(path, conversion_params)
-    end
-
-    def path
-      "/#{from_format}/to/#{to_format}"
+      ConvertApi.client.post(
+        "/#{from_format}/to/#{to_format}",
+        conversion_params
+      )
     end
 
     def conversion_params
@@ -29,15 +28,21 @@ module ConvertApi
           TimeOut: ConvertApi.config.conversion_timeout,
           StoreFile: true,
         )
-        .merge(file_param)
+        .merge(file_params)
     end
 
-    def file_param
+    def file_params
+      result = {}
+
       if resource.is_a?(Array)
-        { Files: resource.map { |r| upload_io(r) } }
+        resource.each_with_index do |r, i|
+          result["Files[#{i}]"] = upload_io(r)
+        end
       else
-        { File: upload_io(resource) }
+        result['File'] = upload_io(resource)
       end
+
+      result
     end
 
     def upload_io(resource)

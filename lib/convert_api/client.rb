@@ -28,9 +28,7 @@ module ConvertApi
         request = Net::HTTP::Post.new('/upload', headers)
         request.body_stream = io
 
-        connection = http
-        connection.read_timeout = config.upload_timeout
-        connection.request(request)
+        http(read_timeout: config.upload_timeout).request(request)
       end
     end
 
@@ -70,11 +68,11 @@ module ConvertApi
       raise(TimeoutError, 'Read timeout')
     end
 
-    def http
+    def http(read_timeout: nil)
       http = Net::HTTP.new(base_uri.host, base_uri.port)
-      http.use_ssl = base_uri.scheme == 'https'
       http.open_timeout = config.connect_timeout
-      http.read_timeout = config.request_timeout
+      http.read_timeout = read_timeout || config.request_timeout
+      http.use_ssl = base_uri.scheme == 'https'
       # http.set_debug_output $stderr
       http
     end
@@ -84,6 +82,8 @@ module ConvertApi
     end
 
     def uri_with_secret(path)
+      raise(SecretError, 'API secret not set') if config.api_secret.empty?
+
       path + '?Secret=' + config.api_secret
     end
 
