@@ -26,8 +26,8 @@ module ConvertApi
     def conversion_params
       params
         .merge(
-          'TimeOut' => ConvertApi.config.conversion_timeout,
-          'StoreFile' => true,
+          TimeOut: ConvertApi.config.conversion_timeout,
+          StoreFile: true,
         )
         .merge(file_param)
     end
