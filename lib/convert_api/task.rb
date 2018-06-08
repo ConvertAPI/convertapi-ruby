@@ -25,7 +25,7 @@ module ConvertApi
     def conversion_params
       params
         .merge(
-          TimeOut: ConvertApi.config.conversion_timeout,
+          Timeout: config.conversion_timeout,
           StoreFile: true,
         )
         .merge(file_params)
@@ -38,6 +38,8 @@ module ConvertApi
         resource.each_with_index do |r, i|
           result["Files[#{i}]"] = upload_io(r)
         end
+      elsif config.url_formats.include?(from_format)
+        result['Url'] = resource
       else
         result['File'] = upload_io(resource)
       end
@@ -49,6 +51,10 @@ module ConvertApi
       return resource if resource.is_a?(UploadIO)
 
       UploadIO.new(resource)
+    end
+
+    def config
+      ConvertApi.config
     end
   end
 end

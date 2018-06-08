@@ -1,19 +1,13 @@
 RSpec.describe ConvertApi do
-  it 'has a version number' do
-    expect(described_class::VERSION).not_to be nil
-  end
-
   it 'has configuration defaults' do
     expect(described_class.config.api_base_uri).not_to be_nil
     expect(described_class.config.connect_timeout).not_to be_nil
     expect(described_class.config.conversion_timeout).not_to be_nil
-    expect(described_class.config.upload_timeout).not_to be_nil
-    expect(described_class.config.download_timeout).not_to be_nil
   end
 
   describe '.configure' do
     let(:api_secret) { 'test_secret' }
-    let(:conversion_timeout) { 700 }
+    let(:conversion_timeout) { 20 }
 
     it 'configures' do
       described_class.configure do |config|
@@ -24,6 +18,12 @@ RSpec.describe ConvertApi do
       expect(described_class.config.api_secret).to eq(api_secret)
       expect(described_class.config.conversion_timeout).to eq(conversion_timeout)
     end
+  end
+
+  describe '.client' do
+    subject { described_class.client }
+
+    it { is_expected.to be_instance_of(ConvertApi::Client) }
   end
 
   describe '.convert' do
@@ -39,11 +39,15 @@ RSpec.describe ConvertApi do
       expect(subject.conversion_cost).to be_instance_of(Integer)
       # subject.save_files('/tmp')
     end
-  end
 
-  describe '.client' do
-    subject { described_class.client }
+    context 'web' do
+      let(:from_format) { 'web' }
+      let(:resource) { 'http://convertapi.com' }
 
-    it { is_expected.to be_instance_of(ConvertApi::Client) }
+      it 'returns result' do
+        expect(subject).to be_instance_of(ConvertApi::Result)
+        # subject.save_files('/tmp')
+      end
+    end
   end
 end
