@@ -1,4 +1,8 @@
 # ConvertApi Ruby Client
+## Convert your files with our online file conversion API
+
+The ConvertAPI helps converting various file formats. Creating PDF and Images from various sources like Word, Excel, Powerpoint, images, web pages or raw HTML codes. Merge, Encrypt, Split, Repair and Decrypt PDF files. And many others files manipulations. In just few minutes you can integrate it into your application and use it easily.
+
 
 ## Installation
 
@@ -8,21 +12,27 @@ Add this line to your application's Gemfile:
 gem 'convert_api'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install convert_api
-
 ## Usage
 
-TODO: Write usage instructions here
+### Configuration
+
+```ruby
+ConvertApi.configure do |config|
+  config.api_secret = 'your api secret'
+end
+```
+
+### Convert file
+
+```ruby
+result = ConvertApi.convert('/path/to/my_file.docx', 'pdf')
+
+result.save_files('/path/to/save/files')
+```
 
 ## Development
 
-Run `rake spec` to run the tests.
+Run `CONVERT_API_SECRET=your_secret rake spec` to run the tests.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
