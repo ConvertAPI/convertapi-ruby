@@ -4,6 +4,7 @@ require 'convert_api/task'
 require 'convert_api/client'
 require 'convert_api/errors'
 require 'convert_api/result'
+require 'convert_api/result_file'
 require 'convert_api/upload_io'
 require 'convert_api/format_detector'
 

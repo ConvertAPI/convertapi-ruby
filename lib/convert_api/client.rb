@@ -1,6 +1,5 @@
 require 'net/https'
 require 'uri'
-require 'open-uri'
 require 'json'
 
 module ConvertApi
@@ -46,16 +45,6 @@ module ConvertApi
         request.body_stream = io
 
         http(read_timeout: config.upload_timeout).request(request)
-      end
-    end
-
-    def download(url, dst)
-      handle_http_exceptions do
-        io = open(url, open_timeout: config.connect_timeout, read_timeout: config.download_timeout)
-
-        IO.copy_stream(io, dst)
-
-        dst
       end
     end
 
