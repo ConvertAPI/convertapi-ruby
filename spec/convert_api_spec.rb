@@ -29,7 +29,7 @@ RSpec.describe ConvertApi do
   end
 
   describe '.convert' do
-    subject { described_class.convert(from_format, to_format, resource, params) }
+    subject { described_class.convert(resource, to_format, from_format, params) }
 
     let(:from_format) { 'docx' }
     let(:to_format) { 'pdf' }
@@ -46,7 +46,13 @@ RSpec.describe ConvertApi do
 
     it_behaves_like 'successful conversion'
 
-    context 'web' do
+    context 'when from format not specified' do
+      let(:from_format) { nil }
+
+      it_behaves_like 'successful conversion'
+    end
+
+    context 'with web resource' do
       let(:from_format) { 'web' }
       let(:resource) { 'http://convertapi.com' }
 

@@ -1,29 +1,24 @@
 module ConvertApi
   class Task
-    attr_reader :from_format, :to_format, :resource, :params
+    attr_reader :from_format, :to_format, :resource, :options
 
-    def initialize(from_format, to_format, resource, params = {})
-      @from_format = from_format
-      @to_format = to_format
+    def initialize(resource, to_format, from_format, options = {})
       @resource = resource
-      @params = params
+      @to_format = to_format
+      @from_format = from_format || detect_format
+      @options = options
     end
 
     def result
+      response = ConvertApi.client.post("/#{from_format}/to/#{to_format}", conversion_params)
+
       Result.new(response)
     end
 
     private
 
-    def response
-      ConvertApi.client.post(
-        "/#{from_format}/to/#{to_format}",
-        conversion_params
-      )
-    end
-
     def conversion_params
-      params
+      options
         .merge(
           Timeout: config.conversion_timeout,
           StoreFile: true,
@@ -51,6 +46,10 @@ module ConvertApi
       return resource if resource.is_a?(UploadIO)
 
       UploadIO.new(resource)
+    end
+
+    def detect_format
+      FormatDetector.new(Array(resource).first).run
     end
 
     def config

@@ -1,8 +1,8 @@
 RSpec.describe ConvertApi::Task do
-  let(:task) { described_class.new(from_format, to_format, resource, params) }
+  let(:task) { described_class.new(resource, to_format, from_format, options) }
   let(:from_format) { 'txt' }
   let(:to_format) { 'pdf' }
-  let(:params) { {} }
+  let(:options) { {} }
 
   describe '#result' do
     subject { task.result }

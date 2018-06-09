@@ -2,8 +2,6 @@ require 'uri'
 
 module ConvertApi
   class UploadIO
-    URI_REGEXP = URI::regexp(%w(http https))
-
     def initialize(resource, filename = nil)
       @resource = resource
       @filename = filename
@@ -16,16 +14,16 @@ module ConvertApi
       result['FileId']
     end
 
+    def filename
+      @filename || io_filename || raise(FileNameError, 'IO filename must be provided')
+    end
+
     private
 
     def io
       return @resource if @resource.respond_to?(:read)
 
       @io ||= File.open(@resource)
-    end
-
-    def filename
-      @filename || io_filename || raise(FileNameError, 'IO filename must be provided')
     end
 
     def io_filename
