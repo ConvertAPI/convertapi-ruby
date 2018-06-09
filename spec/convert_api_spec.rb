@@ -1,3 +1,5 @@
+require 'stringio'
+
 RSpec.describe ConvertApi do
   it 'has configuration defaults' do
     expect(described_class.config.api_base_uri).not_to be_nil
@@ -29,25 +31,34 @@ RSpec.describe ConvertApi do
   describe '.convert' do
     subject { described_class.convert(from_format, to_format, resource, params) }
 
-    let(:from_format) { 'txt' }
+    let(:from_format) { 'docx' }
     let(:to_format) { 'pdf' }
-    let(:resource) { 'LICENSE.txt' }
+    let(:resource) { 'examples/files/test.docx' }
     let(:params) { {} }
 
-    it 'returns result' do
-      expect(subject).to be_instance_of(ConvertApi::Result)
-      expect(subject.conversion_cost).to be_instance_of(Integer)
-      # subject.save_files('/tmp')
+    shared_examples 'successful conversion' do
+      it 'returns result' do
+        expect(subject).to be_instance_of(ConvertApi::Result)
+        expect(subject.conversion_cost).to be_instance_of(Integer)
+        # p subject.save_files('/tmp')
+      end
     end
+
+    it_behaves_like 'successful conversion'
 
     context 'web' do
       let(:from_format) { 'web' }
       let(:resource) { 'http://convertapi.com' }
 
-      it 'returns result' do
-        expect(subject).to be_instance_of(ConvertApi::Result)
-        # subject.save_files('/tmp')
-      end
+      it_behaves_like 'successful conversion'
+    end
+
+    context 'with io source' do
+      let(:from_format) { 'txt' }
+      let(:resource) { ConvertApi::UploadIO.new(io, 'test.txt') }
+      let(:io) { StringIO.new('Hello world') }
+
+      it_behaves_like 'successful conversion'
     end
 
     context 'when secret is not set' do

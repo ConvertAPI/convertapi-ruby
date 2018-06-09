@@ -19,7 +19,7 @@ module ConvertApi
     private
 
     def io
-      return @resource if @resource.is_a?(IO)
+      return @resource if @resource.respond_to?(:read)
 
       @io ||= File.open(@resource)
     end
