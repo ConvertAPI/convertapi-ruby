@@ -49,5 +49,21 @@ RSpec.describe ConvertApi do
         # subject.save_files('/tmp')
       end
     end
+
+    context 'when secret is not set' do
+      before { ConvertApi.config.api_secret = nil }
+
+      it 'raises error' do
+        expect { subject }.to raise_error(ConvertApi::SecretError, /not configured/)
+      end
+    end
+
+    context 'with invalid secret' do
+      before { ConvertApi.config.api_secret = 'invalid' }
+
+      it 'raises error' do
+        expect { subject }.to raise_error(ConvertApi::ClientError, /bad secret/)
+      end
+    end
   end
 end

@@ -101,7 +101,7 @@ module ConvertApi
     end
 
     def uri_with_secret(path)
-      raise(SecretError, 'API secret not set') if config.api_secret.empty?
+      raise(SecretError, 'API secret not configured') if config.api_secret.nil?
 
       path + '?Secret=' + config.api_secret
     end
