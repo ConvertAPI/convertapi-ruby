@@ -17,6 +17,10 @@ module ConvertApi
 
     private
 
+    def detect_format
+      FormatDetector.new(Array(resource).first).run
+    end
+
     def conversion_params
       options
         .merge(
@@ -46,10 +50,6 @@ module ConvertApi
       return resource if resource.is_a?(UploadIO)
 
       UploadIO.new(resource)
-    end
-
-    def detect_format
-      FormatDetector.new(Array(resource).first).run
     end
 
     def config

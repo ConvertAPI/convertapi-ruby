@@ -3,7 +3,7 @@ require 'uri'
 module ConvertApi
   class UploadIO
     def initialize(resource, filename = nil)
-      @resource = resource
+      @resource = resource || raise(FileError, 'Resource not specified')
       @filename = filename
     end
 

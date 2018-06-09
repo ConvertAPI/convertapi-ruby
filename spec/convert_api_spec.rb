@@ -82,5 +82,13 @@ RSpec.describe ConvertApi do
         expect { subject }.to raise_error(ConvertApi::ClientError, /bad secret/)
       end
     end
+
+    context 'when resource does not exist' do
+      let(:resource) { nil }
+
+      it 'raises error' do
+        expect { subject }.to raise_error(ConvertApi::FileError, /not specified/)
+      end
+    end
   end
 end
