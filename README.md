@@ -24,28 +24,59 @@ ConvertApi.configure do |config|
 end
 ```
 
-### Convert file
+### File conversion
+
+Example to convert file to PDF. All supported formats and options can be found 
+[here](https://www.convertapi.com).
 
 ```ruby
-result = ConvertApi.convert('pdf', File: /path/to/my_file.docx')
+result = ConvertApi.convert('pdf', File: '/path/to/my_file.docx')
 
-result.save_files('/path/to/save/files')
+# save to file
+result.file.save('/path/to/save/file.pdf')
 ```
 
-### Convert file url
+Other result operations:
+
+```ruby
+# save all result files to folder
+result.save_files('/path/to/save/files')
+
+# get result file io
+io = result.file.io
+
+# get conversion cost
+conversion_cost = result.conversion_cost 
+```
+
+#### Convert file url
 
 ```ruby
 result = ConvertApi.convert('pdf', File: 'https://website/my_file.docx')
-
-result.save_files('/path/to/save/files')
 ```
 
-### Convert file specifying from format
+#### Specifying from format
 
 ```ruby
-result = ConvertApi.convert('pdf', { File: /path/to/my_file' }, from_format: 'docx')
+result = ConvertApi.convert(
+  'pdf', 
+  { File: /path/to/my_file' }, 
+  from_format: 'docx'
+)
+```
 
-result.save_files('/path/to/save/files')
+#### Additional conversion parameters
+
+ConvertAPI accepts extra conversion parameters depending on converted formats. All conversion 
+parameters and explanations can be found [here](https://www.convertapi.com).
+
+```ruby
+result = ConvertApi.convert(
+  'pdf', 
+  File: /path/to/my_file.docx',
+  PageRange: '1-10',
+  PdfResolution: '150',
+)
 ```
 
 ## Development
