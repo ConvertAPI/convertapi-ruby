@@ -2,22 +2,22 @@ require 'open-uri'
 
 module ConvertApi
   class ResultFile
-    attr_reader :file_info
+    attr_reader :info
 
-    def initialize(file_info)
-      @file_info = file_info
+    def initialize(info)
+      @info = info
     end
 
     def url
-      file_info['Url']
+      info['Url']
     end
 
     def filename
-      file_info['FileName']
+      info['FileName']
     end
 
     def size
-      file_info['FileSize']
+      info['FileSize']
     end
 
     def io

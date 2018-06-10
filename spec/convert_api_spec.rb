@@ -41,6 +41,7 @@ RSpec.describe ConvertApi do
       it 'returns result' do
         expect(subject).to be_instance_of(ConvertApi::Result)
         expect(subject.conversion_cost).to be_instance_of(Integer)
+        expect(subject.files).not_to be_empty
         # p subject.save_files('/tmp')
       end
     end
@@ -57,6 +58,21 @@ RSpec.describe ConvertApi do
     context 'with io source' do
       let(:params) { { File: ConvertApi::UploadIO.new(io, 'test.txt') } }
       let(:io) { StringIO.new('Hello world') }
+
+      it_behaves_like 'successful conversion'
+    end
+
+    context 'with result' do
+      let(:params) { { File: result } }
+
+      let(:result) do
+        ConvertApi::Result.new(
+          'ConversionCost' => 1,
+          'Files' => [
+            'Url' => 'https://www.w3.org/TR/PNG/iso_8859-1.txt',
+          ],
+        )
+      end
 
       it_behaves_like 'successful conversion'
     end
