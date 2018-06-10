@@ -1,25 +1,24 @@
 module ConvertApi
   class Task
-    attr_reader :from_format, :to_format, :params, :conversion_timeout
-
     def initialize(from_format, to_format, params, conversion_timeout: nil)
-      @params = normalize_params(params)
+      @from_format = from_format
       @to_format = to_format
-      @from_format = from_format || detect_format
+      @params = params
       @conversion_timeout = conversion_timeout || config.conversion_timeout
     end
 
     def run
-      request_params = params.merge(
-        Timeout: conversion_timeout,
+      params = normalize_params(@params).merge(
+        Timeout: @conversion_timeout,
         StoreFile: true,
       )
 
-      read_timeout = conversion_timeout + config.conversion_timeout_delta
+      from_format = @from_format || detect_format(params)
+      read_timeout = @conversion_timeout + config.conversion_timeout_delta
 
       response = ConvertApi.client.post(
-        "#{from_format}/to/#{to_format}",
-        request_params,
+        "#{from_format}/to/#{@to_format}",
+        params,
         read_timeout: read_timeout
       )
 
@@ -64,7 +63,7 @@ module ConvertApi
       end
     end
 
-    def detect_format
+    def detect_format(params)
       resource = params[:File] || params[:Url] || Array(params[:Files]).first
 
       FormatDetector.new(resource).run
