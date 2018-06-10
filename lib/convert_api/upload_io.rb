@@ -10,11 +10,18 @@ module ConvertApi
     end
 
     def to_s
-      result = ConvertApi.client.upload(io, filename)
-      result['FileId']
+      file_id
     end
 
     private
+
+    def file_id
+      @file_id ||= upload_file['FileId']
+    end
+
+    def upload_file
+      ConvertApi.client.upload(io, filename)
+    end
 
     def io_filename
       return unless io.respond_to?(:path)
