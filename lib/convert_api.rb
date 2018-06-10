@@ -22,7 +22,7 @@ module ConvertApi
   end
 
   def convert(to_format, params, from_format: nil, conversion_timeout: nil)
-    Task.new(from_format, to_format, params, conversion_timeout: conversion_timeout).result
+    Task.new(from_format, to_format, params, conversion_timeout: conversion_timeout).run
   end
 
   def user

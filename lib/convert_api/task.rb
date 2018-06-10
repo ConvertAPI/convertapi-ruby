@@ -9,7 +9,7 @@ module ConvertApi
       @conversion_timeout = conversion_timeout || config.conversion_timeout
     end
 
-    def result
+    def run
       request_params = params.merge(
         Timeout: conversion_timeout,
         StoreFile: true,
