@@ -21,10 +21,19 @@ module ConvertApi
       Zlib::GzipFile::Error,
     ]
 
+    DEFAULT_HEADERS = { 'Accept' => 'application/json' }
+
+    def get(path, params = {}, options = {})
+      handle_response do
+        request = Net::HTTP::Get.new(request_uri(path, params), DEFAULT_HEADERS)
+
+        http(options).request(request)
+      end
+    end
+
     def post(path, params, options = {})
       handle_response do
-        headers = { 'Accept' => 'application/json' }
-        request = Net::HTTP::Post.new(uri_with_secret(path), headers)
+        request = Net::HTTP::Post.new(request_uri(path), DEFAULT_HEADERS)
         request.form_data = build_form_data(params)
 
         http(options).request(request)
@@ -33,6 +42,7 @@ module ConvertApi
 
     def upload(io, filename)
       handle_response do
+        request_uri = base_uri.path + 'upload'
         encoded_filename = URI.encode(filename)
 
         headers = {
@@ -42,7 +52,7 @@ module ConvertApi
           'Content-Disposition' => "attachment; filename*=UTF-8''#{encoded_filename}",
         }
 
-        request = Net::HTTP::Post.new('/upload', headers)
+        request = Net::HTTP::Post.new(request_uri, headers)
         request.body_stream = io
 
         http(read_timeout: config.upload_timeout).request(request)
@@ -86,14 +96,13 @@ module ConvertApi
       http
     end
 
-    def base_uri
-      @base_uri ||= URI(config.api_base_uri)
-    end
-
-    def uri_with_secret(path)
+    def request_uri(path, params = {})
       raise(SecretError, 'API secret not configured') if config.api_secret.nil?
 
-      path + '?Secret=' + CGI.escape(config.api_secret)
+      params_with_secret = params.merge(Secret: config.api_secret)
+      query = URI.encode_www_form(params_with_secret)
+
+      base_uri.path + path + '?' + query
     end
 
     def build_form_data(params)
@@ -108,6 +117,10 @@ module ConvertApi
       end
 
       data
+    end
+
+    def base_uri
+      config.base_uri
     end
 
     def config

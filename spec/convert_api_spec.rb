@@ -2,7 +2,7 @@ require 'stringio'
 
 RSpec.describe ConvertApi do
   it 'has configuration defaults' do
-    expect(described_class.config.api_base_uri).not_to be_nil
+    expect(described_class.config.base_uri).not_to be_nil
     expect(described_class.config.connect_timeout).not_to be_nil
     expect(described_class.config.conversion_timeout).not_to be_nil
   end
@@ -106,6 +106,14 @@ RSpec.describe ConvertApi do
       it 'raises error' do
         expect { subject }.to raise_error(ConvertApi::FormatError)
       end
+    end
+  end
+
+  describe '.user' do
+    subject { described_class.user }
+
+    it 'returns user information' do
+      expect(subject).to include('Email' => instance_of(String))
     end
   end
 end

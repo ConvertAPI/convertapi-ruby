@@ -1,7 +1,7 @@
 module ConvertApi
   class Configuration
     attr_accessor :api_secret
-    attr_accessor :api_base_uri
+    attr_accessor :base_uri
     attr_accessor :connect_timeout
     attr_accessor :read_timeout
     attr_accessor :conversion_timeout
@@ -10,7 +10,7 @@ module ConvertApi
     attr_accessor :download_timeout
 
     def initialize
-      @api_base_uri = 'https://v2.convertapi.com'
+      @base_uri = URI('https://v2.convertapi.com/')
       @connect_timeout = 5
       @read_timeout = 60
       @conversion_timeout = 600

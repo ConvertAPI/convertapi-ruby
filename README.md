@@ -79,6 +79,16 @@ result = ConvertApi.convert(
 )
 ```
 
+### User information
+
+You can always check remaining seconds amount by fetching [user information](https://www.convertapi.com/doc/user).
+
+```ruby
+user_info = ConvertApi.user
+
+puts user_info['SecondsLeft']
+```
+
 ## Development
 
 Run `CONVERT_API_SECRET=your_secret rake spec` to run the tests.

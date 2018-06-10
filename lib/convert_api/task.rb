@@ -18,7 +18,7 @@ module ConvertApi
       read_timeout = conversion_timeout + config.conversion_timeout_delta
 
       response = ConvertApi.client.post(
-        "/#{from_format}/to/#{to_format}",
+        "#{from_format}/to/#{to_format}",
         request_params,
         read_timeout: read_timeout
       )

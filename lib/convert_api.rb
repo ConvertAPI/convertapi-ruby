@@ -25,6 +25,10 @@ module ConvertApi
     Task.new(from_format, to_format, params, conversion_timeout: conversion_timeout).result
   end
 
+  def user
+    client.get('user')
+  end
+
   def client
     @client ||= Client.new
   end
