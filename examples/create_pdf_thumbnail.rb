@@ -5,6 +5,10 @@ ConvertApi.configure do |config|
   config.api_secret = ENV['CONVERT_API_SECRET'] # your api secret
 end
 
+# Example of extracting first page from PDF and then chaining conversion PDF page to JPG.
+# https://www.convertapi.com/pdf-to-extract
+# https://www.convertapi.com/pdf-to-jpg
+
 pdf_result = ConvertApi.convert(
   'extract',
   File: 'files/test.pdf',

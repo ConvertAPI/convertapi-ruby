@@ -5,6 +5,9 @@ ConvertApi.configure do |config|
   config.api_secret = ENV['CONVERT_API_SECRET'] # your api secret
 end
 
+# Example of converting Web Page URL to PDF file
+# https://www.convertapi.com/web-to-pdf
+
 result = ConvertApi.convert(
   'pdf',
   {
@@ -17,4 +20,4 @@ result = ConvertApi.convert(
 
 saved_files = result.save_files(Dir.tmpdir)
 
-puts "File saved: #{saved_files}"
+puts "The web page PDF saved to #{saved_files}"
