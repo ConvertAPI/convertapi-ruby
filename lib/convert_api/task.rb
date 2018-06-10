@@ -17,7 +17,9 @@ module ConvertApi
     private
 
     def detect_format
-      FormatDetector.new(first_resource).run
+      resource = params[:File] || params[:Url] || Array(params[:Files]).first
+
+      FormatDetector.new(resource).run
     end
 
     def conversion_params
@@ -40,10 +42,6 @@ module ConvertApi
       end
 
       result
-    end
-
-    def first_resource
-      params[:File] || params[:Url] || Array(params[:Files]).first
     end
 
     def symbolize_keys(hash)

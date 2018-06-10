@@ -1,5 +1,7 @@
 module ConvertApi
   class FormatDetector
+    DEFAULT_URL_FORMAT = 'url'
+
     def initialize(resource)
       @resource = resource
     end
@@ -7,7 +9,7 @@ module ConvertApi
     def run
       extension = File.extname(path).downcase
 
-      return 'url' if extension.empty? && @resource =~ URI_REGEXP
+      return DEFAULT_URL_FORMAT if extension.empty? && @resource =~ URI_REGEXP
 
       format = extension[1..-1]
 
