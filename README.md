@@ -40,6 +40,14 @@ result = ConvertApi.convert('pdf', File: 'https://website/my_file.docx')
 result.save_files('/path/to/save/files')
 ```
 
+### Convert file specifying from format
+
+```ruby
+result = ConvertApi.convert('pdf', { File: /path/to/my_file' }, from_format: 'docx')
+
+result.save_files('/path/to/save/files')
+```
+
 ## Development
 
 Run `CONVERT_API_SECRET=your_secret rake spec` to run the tests.
