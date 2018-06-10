@@ -89,6 +89,11 @@ user_info = ConvertApi.user
 puts user_info['SecondsLeft']
 ```
 
+### More examples
+
+You can find more advanced examples in the [examples/](examples) folder.
+
+
 ## Development
 
 Run `CONVERT_API_SECRET=your_secret rake spec` to run the tests.
