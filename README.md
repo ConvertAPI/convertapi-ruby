@@ -16,6 +16,8 @@ gem 'convert_api'
 
 ### Configuration
 
+You can get your secret at https://www.convertapi.com/a
+
 ```ruby
 ConvertApi.configure do |config|
   config.api_secret = 'your api secret'
@@ -26,6 +28,14 @@ end
 
 ```ruby
 result = ConvertApi.convert('/path/to/my_file.docx', 'pdf')
+
+result.save_files('/path/to/save/files')
+```
+
+### Convert file url
+
+```ruby
+result = ConvertApi.convert('https://website/path/to/my_file.docx', 'pdf')
 
 result.save_files('/path/to/save/files')
 ```

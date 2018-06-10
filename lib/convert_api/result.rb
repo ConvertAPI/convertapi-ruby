@@ -10,8 +10,8 @@ module ConvertApi
       response['ConversionCost']
     end
 
-    def save_files(path)
-      files.map { |file| file.save(path) }
+    def file
+      files.first
     end
 
     def files
@@ -20,6 +20,10 @@ module ConvertApi
 
     def urls
       files.map(&:url)
+    end
+
+    def save_files(path)
+      files.map { |file| file.save(path) }
     end
   end
 end
