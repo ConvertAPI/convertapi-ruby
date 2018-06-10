@@ -29,10 +29,10 @@ module ConvertApi
       params.each do |key, value|
         case key
         when :File
-          result[:File] = upload_io(value)
+          result[:File] = file_param(value)
         when :Files
           Array(value) do |r, i|
-            result["Files[#{i}]"] = upload_io(r)
+            result["Files[#{i}]"] = file_param(r)
           end
         else
           result[key] ||= value
@@ -50,10 +50,15 @@ module ConvertApi
       hash.map { |k, v| [k.to_sym, v] }.to_h
     end
 
-    def upload_io(resource)
-      return resource if resource.is_a?(UploadIO)
-
-      UploadIO.new(resource)
+    def file_param(value)
+      case value
+      when UploadIO, URI_REGEXP
+        value
+      when IO
+        UploadIO.new(value)
+      else
+        UploadIO.new(File.open(value))
+      end
     end
 
     def config
