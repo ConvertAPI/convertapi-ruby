@@ -27,7 +27,7 @@ end
 ### Convert file
 
 ```ruby
-result = ConvertApi.convert('/path/to/my_file.docx', 'pdf')
+result = ConvertApi.convert('pdf', File: /path/to/my_file.docx')
 
 result.save_files('/path/to/save/files')
 ```
@@ -35,7 +35,7 @@ result.save_files('/path/to/save/files')
 ### Convert file url
 
 ```ruby
-result = ConvertApi.convert('https://website/path/to/my_file.docx', 'pdf')
+result = ConvertApi.convert('pdf', File: 'https://website/path/to/my_file.docx')
 
 result.save_files('/path/to/save/files')
 ```

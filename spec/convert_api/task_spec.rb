@@ -1,14 +1,13 @@
 RSpec.describe ConvertApi::Task do
-  let(:task) { described_class.new(resource, to_format, from_format, options) }
+  let(:task) { described_class.new(from_format, to_format, params) }
   let(:from_format) { 'txt' }
   let(:to_format) { 'pdf' }
-  let(:options) { {} }
+  let(:params) { { File: 'https://www.w3.org/TR/PNG/iso_8859-1.txt' } }
 
   describe '#result' do
     subject { task.result }
 
     let(:result) { double }
-    let(:resource) { 'https://www.w3.org/TR/PNG/iso_8859-1.txt' }
 
     it 'executes task and returns result' do
       expect(ConvertApi.client)

@@ -29,12 +29,13 @@ RSpec.describe ConvertApi do
   end
 
   describe '.convert' do
-    subject { described_class.convert(resource, to_format, from_format, params) }
+    subject do
+      described_class.convert(to_format, params, from_format: from_format)
+    end
 
-    let(:from_format) { 'docx' }
+    let(:from_format) { nil }
     let(:to_format) { 'pdf' }
-    let(:resource) { 'examples/files/test.docx' }
-    let(:params) { {} }
+    let(:params) { { File: 'examples/files/test.docx' } }
 
     shared_examples 'successful conversion' do
       it 'returns result' do
@@ -46,22 +47,15 @@ RSpec.describe ConvertApi do
 
     it_behaves_like 'successful conversion'
 
-    context 'when from format not specified' do
-      let(:from_format) { nil }
-
-      it_behaves_like 'successful conversion'
-    end
-
     context 'with web resource' do
       let(:from_format) { 'web' }
-      let(:resource) { 'http://convertapi.com' }
+      let(:params) { { Url: 'http://convertapi.com' } }
 
       it_behaves_like 'successful conversion'
     end
 
     context 'with io source' do
-      let(:from_format) { 'txt' }
-      let(:resource) { ConvertApi::UploadIO.new(io, 'test.txt') }
+      let(:params) { { File: ConvertApi::UploadIO.new(io, 'test.txt') } }
       let(:io) { StringIO.new('Hello world') }
 
       it_behaves_like 'successful conversion'
@@ -83,11 +77,11 @@ RSpec.describe ConvertApi do
       end
     end
 
-    context 'when resource does not exist' do
-      let(:resource) { nil }
+    context 'when file and format not specified' do
+      let(:params) { {} }
 
       it 'raises error' do
-        expect { subject }.to raise_error(ConvertApi::FileError, /not specified/)
+        expect { subject }.to raise_error(ConvertApi::FormatError)
       end
     end
   end
