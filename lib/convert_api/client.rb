@@ -25,7 +25,7 @@ module ConvertApi
       handle_response do
         headers = { 'Accept' => 'application/json' }
         request = Net::HTTP::Post.new(uri_with_secret(path), headers)
-        request.form_data = params
+        request.form_data = build_form_data(params)
 
         http(options).request(request)
       end
@@ -94,6 +94,20 @@ module ConvertApi
       raise(SecretError, 'API secret not configured') if config.api_secret.nil?
 
       path + '?Secret=' + CGI.escape(config.api_secret)
+    end
+
+    def build_form_data(params)
+      data = {}
+
+      params.each do |key, value|
+        if value.is_a?(Array)
+          value.each_with_index { |v, i| data["#{key}[#{i}]"] = v }
+        else
+          data[key] = value
+        end
+      end
+
+      data
     end
 
     def config

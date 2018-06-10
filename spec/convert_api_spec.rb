@@ -62,6 +62,13 @@ RSpec.describe ConvertApi do
       it_behaves_like 'successful conversion'
     end
 
+    context 'with multiple files' do
+      let(:to_format) { 'zip' }
+      let(:params) { { Files: ['examples/files/test.pdf', 'examples/files/test.pdf'] } }
+
+      it_behaves_like 'successful conversion'
+    end
+
     context 'with result' do
       let(:params) { { File: result } }
 

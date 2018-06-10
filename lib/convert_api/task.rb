@@ -36,7 +36,7 @@ module ConvertApi
         when :File
           result[:File] = file_param(value)
         when :Files
-          result[:Files] = Array(result[:Files]).map { |file| file_param(file) }
+          result[:Files] = Array(value).map { |file| file_param(file) }
         else
           result[key] = value
         end
