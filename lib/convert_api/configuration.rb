@@ -1,24 +1,22 @@
 module ConvertApi
   class Configuration
-    HTTP_REQUEST_TIMEOUT_DELTA = 10
-
     attr_accessor :api_secret
     attr_accessor :api_base_uri
     attr_accessor :connect_timeout
+    attr_accessor :read_timeout
     attr_accessor :conversion_timeout
+    attr_accessor :conversion_timeout_delta
     attr_accessor :upload_timeout
     attr_accessor :download_timeout
 
     def initialize
       @api_base_uri = 'https://v2.convertapi.com'
       @connect_timeout = 5
+      @read_timeout = 60
       @conversion_timeout = 600
+      @conversion_timeout_delta = 10
       @upload_timeout = 600
       @download_timeout = 600
-    end
-
-    def request_timeout
-      conversion_timeout + HTTP_REQUEST_TIMEOUT_DELTA
     end
   end
 end

@@ -1,20 +1,27 @@
 module ConvertApi
   class Task
-    attr_reader :from_format, :to_format, :params
+    attr_reader :from_format, :to_format, :params, :conversion_timeout
 
-    def initialize(from_format, to_format, params)
+    def initialize(from_format, to_format, params, conversion_timeout: nil)
       @params = normalize_params(params)
       @to_format = to_format
       @from_format = from_format || detect_format
+      @conversion_timeout = conversion_timeout || config.conversion_timeout
     end
 
     def result
       request_params = params.merge(
-        Timeout: config.conversion_timeout,
+        Timeout: conversion_timeout,
         StoreFile: true,
       )
 
-      response = ConvertApi.client.post("/#{from_format}/to/#{to_format}", request_params)
+      read_timeout = conversion_timeout + config.conversion_timeout_delta
+
+      response = ConvertApi.client.post(
+        "/#{from_format}/to/#{to_format}",
+        request_params,
+        read_timeout: read_timeout
+      )
 
       Result.new(response)
     end

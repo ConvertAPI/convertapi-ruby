@@ -21,8 +21,8 @@ module ConvertApi
     @config ||= Configuration.new
   end
 
-  def convert(to_format, params, from_format: nil)
-    Task.new(from_format, to_format, params).result
+  def convert(to_format, params, from_format: nil, conversion_timeout: nil)
+    Task.new(from_format, to_format, params, conversion_timeout: conversion_timeout).result
   end
 
   def client

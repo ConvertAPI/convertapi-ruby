@@ -1,5 +1,6 @@
 require 'net/https'
 require 'uri'
+require 'cgi'
 require 'json'
 
 module ConvertApi
@@ -20,13 +21,13 @@ module ConvertApi
       Zlib::GzipFile::Error,
     ]
 
-    def post(path, params)
+    def post(path, params, options = {})
       handle_response do
         headers = { 'Accept' => 'application/json' }
         request = Net::HTTP::Post.new(uri_with_secret(path), headers)
         request.form_data = params
 
-        http.request(request)
+        http(options).request(request)
       end
     end
 
@@ -79,7 +80,7 @@ module ConvertApi
     def http(read_timeout: nil)
       http = Net::HTTP.new(base_uri.host, base_uri.port)
       http.open_timeout = config.connect_timeout
-      http.read_timeout = read_timeout || config.request_timeout
+      http.read_timeout = read_timeout || config.read_timeout
       http.use_ssl = base_uri.scheme == 'https'
       # http.set_debug_output $stderr
       http
@@ -92,7 +93,7 @@ module ConvertApi
     def uri_with_secret(path)
       raise(SecretError, 'API secret not configured') if config.api_secret.nil?
 
-      path + '?Secret=' + config.api_secret
+      path + '?Secret=' + CGI.escape(config.api_secret)
     end
 
     def config
