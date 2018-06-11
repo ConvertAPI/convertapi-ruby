@@ -23,7 +23,11 @@ module ConvertApi
     end
 
     def save_files(path)
-      files.map { |file| file.save(path) }
+      threads = files.map do |file|
+        Thread.new { file.save(path) }
+      end
+
+      threads.map(&:value)
     end
   end
 end
