@@ -64,7 +64,9 @@ RSpec.describe ConvertApi do
 
     context 'with multiple files' do
       let(:to_format) { 'zip' }
-      let(:params) { { Files: ['examples/files/test.pdf', 'examples/files/test.pdf'] } }
+      let(:params) { { Files: [file1, file2] } }
+      let(:file1) { 'examples/files/test.pdf' }
+      let(:file2) { ConvertApi::UploadIO.new('examples/files/test.pdf', 'test2.pdf') }
 
       it_behaves_like 'successful conversion'
     end
