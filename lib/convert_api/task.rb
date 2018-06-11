@@ -33,9 +33,9 @@ module ConvertApi
       symbolize_keys(params).each do |key, value|
         case key
         when :File
-          result[:File] = file_param(value)
+          result[:File] = FileParam.build(value)
         when :Files
-          result[:Files] = Array(value).map { |file| file_param(file) }
+          result[:Files] = files_batch(value)
         else
           result[key] = value
         end
@@ -48,19 +48,16 @@ module ConvertApi
       hash.map { |k, v| [k.to_sym, v] }.to_h
     end
 
-    def file_param(value)
-      case value
-      when UploadIO, URI_REGEXP
-        value
-      when Result
-        value.file.url
-      when ResultFile
-        value.url
-      when IO
-        UploadIO.new(value)
-      else
-        UploadIO.new(File.open(value))
-      end
+    def files_batch(values)
+      files = Array(values).map { |file| FileParam.build(file) }
+
+      # upload files in parallel
+      files
+        .select { |file| file.is_a?(UploadIO) }
+        .map { |upload_io| Thread.new { upload_io.file_id } }
+        .map(&:join)
+
+      files
     end
 
     def detect_format(params)

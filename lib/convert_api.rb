@@ -6,6 +6,7 @@ require 'convert_api/errors'
 require 'convert_api/result'
 require 'convert_api/result_file'
 require 'convert_api/upload_io'
+require 'convert_api/file_param'
 require 'convert_api/format_detector'
 
 module ConvertApi
