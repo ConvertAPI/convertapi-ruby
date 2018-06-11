@@ -21,7 +21,12 @@ module ConvertApi
       Zlib::GzipFile::Error,
     ]
 
-    DEFAULT_HEADERS = { 'Accept' => 'application/json' }
+    USER_AGENT = "convertapi-ruby-#{VERSION}"
+
+    DEFAULT_HEADERS = {
+      'User-Agent' => USER_AGENT,
+      'Accept' => 'application/json'
+    }
 
     def get(path, params = {}, options = {})
       handle_response do
@@ -45,12 +50,11 @@ module ConvertApi
         request_uri = base_uri.path + 'upload'
         encoded_filename = URI.encode(filename)
 
-        headers = {
+        headers = DEFAULT_HEADERS.merge(
           'Content-Type' => 'application/octet-stream',
-          'Accept' => 'application/json',
           'Transfer-Encoding' => 'chunked',
           'Content-Disposition' => "attachment; filename*=UTF-8''#{encoded_filename}",
-        }
+        )
 
         request = Net::HTTP::Post.new(request_uri, headers)
         request.body_stream = io
