@@ -1,4 +1,5 @@
 require 'stringio'
+require 'tmpdir'
 
 RSpec.describe ConvertApi do
   it 'has configuration defaults' do
@@ -42,7 +43,9 @@ RSpec.describe ConvertApi do
         expect(subject).to be_instance_of(ConvertApi::Result)
         expect(subject.conversion_cost).to be_a_kind_of(Integer)
         expect(subject.files).not_to be_empty
-        # p subject.save_files('/tmp')
+
+        files = subject.save_files(Dir.tmpdir)
+        files.each { |file| File.unlink(file) }
       end
     end
 
