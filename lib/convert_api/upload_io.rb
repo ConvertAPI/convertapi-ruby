@@ -13,11 +13,11 @@ module ConvertApi
       file_id
     end
 
-    private
-
     def file_id
       @file_id ||= upload_file['FileId']
     end
+
+    private
 
     def upload_file
       ConvertApi.client.upload(io, filename)
