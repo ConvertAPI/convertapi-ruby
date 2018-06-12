@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['support@convertapi.com']
 
   spec.summary       = %q{ConvertAPI client library}
-  spec.description   = %q{Ruby library for Convert API. Creating PDF and images from various sources like Word, Excel, Powerpoint document, images, web pages or raw HTML codes.}
+  spec.description   = %q{Convert various files like MS Word, Excel, PowerPoint, Images to PDF and Images. Create PDF and Images from url and raw HTML. Extract and create PowerPoint presentation from PDF. Merge, Encrypt, Split, Repair and Decrypt PDF files. All supported files conversions and manipulations can be found at https://www.convertapi.com/doc/supported-formats}
   spec.homepage      = 'https://github.com/ConvertAPI/convertapi-ruby'
   spec.license       = 'MIT'
 
