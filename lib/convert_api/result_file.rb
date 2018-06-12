@@ -21,12 +21,7 @@ module ConvertApi
     end
 
     def io
-      @io ||= open(
-        url,
-        open_timeout: config.connect_timeout,
-        read_timeout: config.download_timeout,
-        'User-Agent' => ConvertApi::Client::USER_AGENT,
-      )
+      @io ||= open(url, download_options)
     end
 
     def save(path)
@@ -38,6 +33,14 @@ module ConvertApi
     end
 
     private
+
+    def download_options
+      options = { read_timeout: config.download_timeout }
+
+      options[:open_timeout] = config.connect_timeout if RUBY_VERSION > '2.2.0'
+
+      options.merge('User-Agent' => ConvertApi::Client::USER_AGENT)
+    end
 
     def config
       ConvertApi.config
