@@ -1,13 +1,15 @@
 sudo: false
 language: ruby
 rvm:
-- 2.0.0-p645
 - 2.1.0
 - 2.2.0
 - 2.3.0
 - 2.4.1
 - 2.5.1
 - ruby-head
+- ruby-head-clang
+- jruby-9.0.0.0
+- jruby-head
 before_install: gem install bundler -v 1.16.1
 env:
   global:
