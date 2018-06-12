@@ -8,9 +8,9 @@ rvm:
 - 2.5.1
 - ruby-head
 - ruby-head-clang
-- jruby-9.0.0.0
+- jruby-9.1.0.0
 - jruby-head
-bundler_args: --binstubs
+bundler_args: --jobs=3 --retry=3 --binstubs
 env:
   global:
     secure: Pri+nCT6ayGYkjGO/WfMGkqk4DBKseJjQuWHWdft9YH2G+5dc7UKypDqmlfZvqwLPw2kybepKfh/utRGYsL5nfbET+3Ml8+2Bgaf0IT4Ej/3B5KIdFbivHmRp/NP/Dgh64M+5u1wKEEnw1NIMHwcanQDzPUDtaxqsw1xwowUL5Axr+UnJtWL2bP/RCED2JEgwhBQBFSMBXXwpSK2yFT7X1pInPWX2S0hELxj1UDefLDjp6kEnkrU/u+FjC9RhmYhusx2muXC4pHiqdNL0fDZStgginAQAd92FsMHQyzwewefCGRAg0g25ZmSGx5cHL4BZORdUnxaG9+AS9Wt17tZI2WS9eUBc9yyRU+R76aSo79uJj4RKi1Ljd3+4fyI/9BDz9a2koEgeDbYUHHf0dYaFSLXcOpnLBBPtr0qD02SUP1EcYTOe1/sNMweDLfN67E70YV69+ZqQeb+xgCbAeeoTOGJ9uKR2c91wSZwDjpTXXSLrNeNw98FPRyWxpfRRFQV29ZDPx/cfHt9gAVQVnd+ZBCAFwr353nqE8Ux1wtrxkexPkT8G+TXIgTvvYDfu2WmaO7qrZR2D6427jc4sgndwWfSPgiLw4eW1u3hCyaCnPBsviugtj1sTs2NfnLPdgtSUcKBd4xNbbVQoqZM1qTL139HvpZFB+jD8uoVtgWigUA=
