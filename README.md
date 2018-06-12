@@ -1,4 +1,9 @@
 # ConvertAPI Ruby Client
+
+
+[![Gem](https://img.shields.io/gem/v/convert_api.svg)](https://rubygems.org/gems/convert_api)
+[![Build Status](https://secure.travis-ci.org/ConvertAPI/convertapi-ruby.svg)](http://travis-ci.org/ConvertAPI/convertapi-ruby)
+
 ## Convert your files with our online file conversion API
 
 The ConvertAPI helps converting various file formats. Creating PDF and Images from various sources like Word, Excel, Powerpoint, images, web pages or raw HTML codes. Merge, Encrypt, Split, Repair and Decrypt PDF files. And many others files manipulations. In just few minutes you can integrate it into your application and use it easily.
