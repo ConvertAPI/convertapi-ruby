@@ -25,6 +25,7 @@ module ConvertApi
         url,
         open_timeout: config.connect_timeout,
         read_timeout: config.download_timeout,
+        'User-Agent' => ConvertApi::Client::USER_AGENT,
       )
     end
 
