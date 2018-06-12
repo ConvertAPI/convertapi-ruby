@@ -40,7 +40,7 @@ RSpec.describe ConvertApi do
     shared_examples 'successful conversion' do
       it 'returns result' do
         expect(subject).to be_instance_of(ConvertApi::Result)
-        expect(subject.conversion_cost).to be_instance_of(Integer)
+        expect(subject.conversion_cost).to be_a_kind_of(Integer)
         expect(subject.files).not_to be_empty
         # p subject.save_files('/tmp')
       end
