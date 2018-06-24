@@ -32,6 +32,6 @@ module ConvertApi
   end
 
   def client
-    @client ||= Client.new
+    Thread.current[:convert_api_client] ||= Client.new
   end
 end
