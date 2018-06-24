@@ -52,6 +52,12 @@ RSpec.describe ConvertApi do
     it_behaves_like 'successful conversion'
 
     context 'with web resource' do
+      let(:params) { { Url: 'http://convertapi.com' } }
+
+      it_behaves_like 'successful conversion'
+    end
+
+    context 'with web resource' do
       let(:from_format) { 'web' }
       let(:params) { { Url: 'http://convertapi.com' } }
 

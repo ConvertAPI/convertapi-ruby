@@ -26,11 +26,6 @@ RSpec.describe ConvertApi::FormatDetector, '#run' do
     it { is_expected.to eq('txt') }
   end
 
-  context 'with web url' do
-    let(:resource) { 'http://www.convertapi.com/' }
-    it { is_expected.to eq('url') }
-  end
-
   context 'when path without extension' do
     let(:resource) { 'test' }
 

@@ -61,7 +61,9 @@ module ConvertApi
     end
 
     def detect_format(params)
-      resource = params[:File] || params[:Url] || Array(params[:Files]).first
+      return DEFAULT_URL_FORMAT if params[:Url]
+
+      resource = params[:File] || Array(params[:Files]).first
 
       FormatDetector.new(resource).run
     end

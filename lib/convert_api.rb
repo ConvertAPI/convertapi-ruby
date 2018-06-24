@@ -11,6 +11,7 @@ require 'convert_api/format_detector'
 
 module ConvertApi
   URI_REGEXP = URI::regexp(%w(http https))
+  DEFAULT_URL_FORMAT = 'url'
 
   module_function
 
