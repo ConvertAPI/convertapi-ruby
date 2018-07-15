@@ -13,7 +13,7 @@ module ConvertApi
       @base_uri = URI('https://v2.convertapi.com/')
       @connect_timeout = 5
       @read_timeout = 60
-      @conversion_timeout = 600
+      @conversion_timeout = 180
       @conversion_timeout_delta = 10
       @upload_timeout = 600
       @download_timeout = 600
