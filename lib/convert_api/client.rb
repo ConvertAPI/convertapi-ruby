@@ -21,7 +21,7 @@ module ConvertApi
       Zlib::GzipFile::Error,
     ]
 
-    USER_AGENT = "convertapi-ruby-#{VERSION}"
+    USER_AGENT = "ConvertAPI-Ruby/#{VERSION}"
 
     DEFAULT_HEADERS = {
       'User-Agent' => USER_AGENT,
