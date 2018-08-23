@@ -25,7 +25,7 @@ You can get your secret at https://www.convertapi.com/a
 
 ```ruby
 ConvertApi.configure do |config|
-  config.api_secret = 'your api secret'
+  config.api_secret = 'your-api-secret'
 end
 ```
 
