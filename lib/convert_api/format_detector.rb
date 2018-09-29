@@ -5,15 +5,18 @@ module ConvertApi
     end
 
     def run
-      extension = File.extname(path).downcase
-      format = extension[1..-1]
+      return @resource.file_ext.downcase if @resource.is_a?(UploadIO)
 
-      raise(FormatError, 'Unable to detect format') if format.nil?
-
-      format
+      format_from_path
     end
 
     private
+
+    def format_from_path
+      extension = File.extname(path).downcase
+      format = extension[1..-1]
+      format || raise(FormatError, 'Unable to detect format')
+    end
 
     def path
       case @resource
@@ -21,8 +24,6 @@ module ConvertApi
         URI(@resource).path
       when File
         @resource.path
-      when UploadIO
-        @resource.filename
       else
         ''
       end
