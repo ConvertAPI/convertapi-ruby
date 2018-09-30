@@ -2,8 +2,6 @@ require 'uri'
 
 module ConvertApi
   class UploadIO
-    attr_reader :io, :filename
-
     def initialize(io, filename = nil)
       @io = io
       @filename = filename || io_filename || raise(FileNameError, 'IO filename must be provided')
@@ -14,18 +12,30 @@ module ConvertApi
     end
 
     def file_id
-      @file_id ||= upload_file['FileId']
+      result['FileId']
+    end
+
+    def file_name
+      result['FileName']
+    end
+
+    def file_ext
+      result['FileExt']
     end
 
     private
 
+    def result
+      @result ||= upload_file
+    end
+
     def upload_file
-      ConvertApi.client.upload(io, filename)
+      ConvertApi.client.upload(@io, @filename)
     end
 
     def io_filename
-      return unless io.respond_to?(:path)
-      File.basename(io.path)
+      return unless @io.respond_to?(:path)
+      File.basename(@io.path)
     end
   end
 end

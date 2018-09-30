@@ -12,7 +12,7 @@ RSpec.describe ConvertApi::FormatDetector, '#run' do
   end
 
   context 'with url' do
-    let(:resource) { 'https://hostname/some/path/test.txt' }
+    let(:resource) { 'https://hostname/some/path/test.txt?test=1' }
     it { is_expected.to eq('txt') }
   end
 
@@ -23,6 +23,10 @@ RSpec.describe ConvertApi::FormatDetector, '#run' do
 
   context 'with UploadIO' do
     let(:resource) { ConvertApi::UploadIO.new('test', 'file.txt') }
+    let(:upload_result) { { 'FileId' => '123', 'FileExt' => 'txt', 'FileName' => 'file.txt' } }
+
+    before { expect(ConvertApi.client).to receive(:upload).and_return(upload_result) }
+
     it { is_expected.to eq('txt') }
   end
 
