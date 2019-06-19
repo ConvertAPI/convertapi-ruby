@@ -15,9 +15,10 @@ module ConvertApi
 
       from_format = @from_format || detect_format(params)
       read_timeout = @conversion_timeout + config.conversion_timeout_delta
+      converter = params[:converter] ? "/converter/#{params[:converter]}" : ''
 
       response = ConvertApi.client.post(
-        "convert/#{from_format}/to/#{@to_format}",
+        "convert/#{from_format}/to/#{@to_format}#{converter}",
         params,
         read_timeout: read_timeout
       )
