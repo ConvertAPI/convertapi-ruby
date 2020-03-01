@@ -6,6 +6,8 @@ rvm:
 - 2.3.0
 - 2.4.1
 - 2.5.1
+- 2.6.5
+- 2.7.0
 - ruby-head
 - ruby-head-clang
 - jruby-head
