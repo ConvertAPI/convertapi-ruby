@@ -6,7 +6,7 @@
 
 ## Convert your files with our online file conversion API
 
-The ConvertAPI helps converting various file formats. Creating PDF and Images from various sources like Word, Excel, Powerpoint, images, web pages or raw HTML codes. Merge, Encrypt, Split, Repair and Decrypt PDF files. And many others files manipulations. In just few minutes you can integrate it into your application and use it easily.
+ConvertAPI helps in converting various file formats. Creating PDF and Images from various sources like Word, Excel, Powerpoint, images, web pages or raw HTML codes. Merge, Encrypt, Split, Repair and Decrypt PDF files and many other file manipulations. You can integrate it into your application in just a few minutes and use it easily.
 
 
 ## Installation
@@ -31,7 +31,7 @@ end
 
 ### File conversion
 
-Example to convert file to PDF. All supported formats and options can be found 
+Convert file to PDF example. All supported formats and options can be found 
 [here](https://www.convertapi.com).
 
 ```ruby
@@ -86,7 +86,7 @@ result = ConvertApi.convert(
 
 ### User information
 
-You can always check remaining seconds amount by fetching [user information](https://www.convertapi.com/doc/user).
+You can always check your remaining seconds programmatically by fetching [user information](https://www.convertapi.com/doc/user).
 
 ```ruby
 user_info = ConvertApi.user
@@ -96,7 +96,7 @@ puts user_info['SecondsLeft']
 
 ### More examples
 
-You can find more advanced examples in the [examples/](https://github.com/ConvertAPI/convertapi-ruby/tree/master/examples) folder.
+Find more advanced examples in the [examples/](https://github.com/ConvertAPI/convertapi-ruby/tree/master/examples) folder.
 
 
 ## Development
