@@ -32,7 +32,7 @@ end
 ### File conversion
 
 Example to convert file to PDF. All supported formats and options can be found 
-[here](https://www.convertapi.com).
+[here](https://www.convertapi.com/doc/supported-formats).
 
 ```ruby
 result = ConvertApi.convert('pdf', File: '/path/to/my_file.docx')
