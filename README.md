@@ -84,7 +84,7 @@ result = ConvertApi.convert(
 )
 ```
 
-#### Accessing result files
+#### Accessing result file properties
 
 You can access result file collection like this:
 
