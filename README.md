@@ -84,6 +84,17 @@ result = ConvertApi.convert(
 )
 ```
 
+#### Accessing result files
+
+You can access result file collection like this:
+
+```ruby
+result = ConvertApi.convert('pdf', File: 'https://website/my_file.docx')
+
+puts result.files[0].url
+puts result.files[0].size
+```
+
 ### User information
 
 You can always check remaining seconds amount by fetching [user information](https://www.convertapi.com/doc/user).
