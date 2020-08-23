@@ -48,7 +48,7 @@ module ConvertApi
     def upload(io, filename)
       handle_response do
         request_uri = base_uri.path + 'upload'
-        encoded_filename = URI.encode(filename)
+        encoded_filename = CGI.escape(filename)
 
         headers = DEFAULT_HEADERS.merge(
           'Content-Type' => 'application/octet-stream',
