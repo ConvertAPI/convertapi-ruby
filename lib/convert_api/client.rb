@@ -91,10 +91,10 @@ module ConvertApi
       raise(TimeoutError, e)
     end
 
-    def http(read_timeout: nil)
+    def http(options = {})
       http = Net::HTTP.new(base_uri.host, base_uri.port)
       http.open_timeout = config.connect_timeout
-      http.read_timeout = read_timeout || config.read_timeout
+      http.read_timeout = options.fetch(:read_timeout, config.read_timeout)
       http.use_ssl = base_uri.scheme == 'https'
       # http.set_debug_output $stderr
       http
