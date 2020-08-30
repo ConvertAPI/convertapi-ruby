@@ -11,7 +11,7 @@ module ConvertApi
       params = normalize_params(@params).merge(
         Timeout: @conversion_timeout,
         StoreFile: true,
-      ).compact
+      )
 
       from_format = @from_format || detect_format(params)
       read_timeout = @conversion_timeout + config.conversion_timeout_delta if @conversion_timeout
