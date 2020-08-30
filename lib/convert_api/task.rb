@@ -11,16 +11,16 @@ module ConvertApi
       params = normalize_params(@params).merge(
         Timeout: @conversion_timeout,
         StoreFile: true,
-      )
+      ).compact
 
       from_format = @from_format || detect_format(params)
-      read_timeout = @conversion_timeout + config.conversion_timeout_delta
+      read_timeout = @conversion_timeout + config.conversion_timeout_delta if @conversion_timeout
       converter = params[:converter] ? "/converter/#{params[:converter]}" : ''
 
       response = ConvertApi.client.post(
         "convert/#{from_format}/to/#{@to_format}#{converter}",
         params,
-        read_timeout: read_timeout
+        read_timeout: read_timeout,
       )
 
       Result.new(response)
