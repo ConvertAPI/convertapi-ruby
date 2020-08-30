@@ -31,8 +31,8 @@ end
 
 ### File conversion
 
-Convert file to PDF example. All supported formats and options can be found 
-[here](https://www.convertapi.com).
+Example to convert file to PDF. All supported formats and options can be found 
+[here](https://www.convertapi.com/doc/supported-formats).
 
 ```ruby
 result = ConvertApi.convert('pdf', File: '/path/to/my_file.docx')
@@ -82,6 +82,17 @@ result = ConvertApi.convert(
   PageRange: '1-10',
   PdfResolution: '150',
 )
+```
+
+#### Accessing result file properties
+
+You can access result file collection like this:
+
+```ruby
+result = ConvertApi.convert('pdf', File: 'https://website/my_file.docx')
+
+puts result.files[0].url
+puts result.files[0].size
 ```
 
 ### User information

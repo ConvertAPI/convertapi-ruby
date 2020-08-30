@@ -21,7 +21,7 @@ module ConvertApi
     end
 
     def io
-      @io ||= open(url, download_options)
+      @io ||= URI.parse(url).open(download_options)
     end
 
     def save(path)

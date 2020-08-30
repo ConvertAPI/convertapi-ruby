@@ -6,7 +6,7 @@ ConvertApi.configure do |config|
 end
 
 # Example of saving Word docx to PDF using OpenOffice converter
-# https://www.convertapi.com/doc-to-pdf/openofficetopdf
+# https://www.convertapi.com/doc-to-pdf/openoffice
 
 # Use upload IO wrapper to upload file only once to the API
 upload_io = ConvertApi::UploadIO.new(File.open('files/test.docx'))
