@@ -1,9 +1,17 @@
 RSpec.describe ConvertApi::FormatDetector, '#run' do
-  subject { described_class.new(resource).run }
+  subject { described_class.new(resource, to_format).run }
+
+  let(:to_format) { 'pdf' }
 
   context 'with file name' do
     let(:resource) { 'test.txt' }
     it { is_expected.to eq('txt') }
+  end
+
+  context 'when archiving' do
+    let(:resource) { 'test.txt' }
+    let(:to_format) { 'zip' }
+    it { is_expected.to eq('any') }
   end
 
   context 'with file path' do

@@ -66,7 +66,7 @@ module ConvertApi
 
       resource = params[:File] || Array(params[:Files]).first
 
-      FormatDetector.new(resource).run
+      FormatDetector.new(resource, @to_format).run
     end
 
     def config
