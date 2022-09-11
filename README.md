@@ -2,7 +2,9 @@
 
 
 [![Gem](https://img.shields.io/gem/v/convert_api.svg)](https://rubygems.org/gems/convert_api)
-[![Build Status](https://secure.travis-ci.org/ConvertAPI/convertapi-ruby.svg)](http://travis-ci.org/ConvertAPI/convertapi-ruby)
+[![Build Status](https://github.com/ConvertAPI/convertapi-ruby/actions/workflows/main.yml/badge.svg)](https://github.com/ConvertAPI/convertapi-ruby/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 
 ## Convert your files with our online file conversion API
 
