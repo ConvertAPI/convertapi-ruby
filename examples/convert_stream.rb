@@ -18,7 +18,7 @@ io.rewind
 upload_io = ConvertApi::UploadIO.new(io, 'test.txt')
 
 saved_files = ConvertApi
-  .convert('pdf', File: upload_io)
+  .convert('pdf', {File: upload_io})
   .save_files(Dir.tmpdir)
 
 puts "The PDF saved to: #{saved_files}"
