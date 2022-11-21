@@ -10,7 +10,7 @@ end
 
 puts 'Converting PDF to JPG and compressing result files with ZIP'
 
-jpg_result = ConvertApi.convert('jpg', File: 'files/test.pdf')
+jpg_result = ConvertApi.convert('jpg', {File: 'files/test.pdf'})
 
 puts "Conversions done. Cost: #{jpg_result.conversion_cost}. Total files created: #{jpg_result.files.count}"
 
