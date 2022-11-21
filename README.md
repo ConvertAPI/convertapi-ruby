@@ -67,8 +67,8 @@ result = ConvertApi.convert('pdf', { File: 'https://website/my_file.docx' })
 ```ruby
 result = ConvertApi.convert(
   'pdf', 
-  { File: /path/to/my_file', 
-  from_format: 'docx' }
+  {File: /path/to/my_file'}, 
+  from_format: 'docx'
 )
 ```
 
@@ -80,9 +80,9 @@ parameters and explanations can be found [here](https://www.convertapi.com).
 ```ruby
 result = ConvertApi.convert(
   'pdf', 
-  { File: /path/to/my_file.docx',
+  {File: /path/to/my_file.docx',
   PageRange: '1-10',
-  PdfResolution: '150' }
+  PdfResolution: '150'}
 )
 ```
 
