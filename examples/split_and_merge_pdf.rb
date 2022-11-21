@@ -9,11 +9,11 @@ end
 # https://www.convertapi.com/pdf-to-split
 # https://www.convertapi.com/pdf-to-merge
 
-split_result = ConvertApi.convert('split', File: 'files/test.pdf')
+split_result = ConvertApi.convert('split', {File: 'files/test.pdf'})
 
 files = [split_result.files.first, split_result.files.last]
 
-merge_result = ConvertApi.convert('merge', Files: files)
+merge_result = ConvertApi.convert('merge', {Files: files})
 
 saved_files = merge_result.save_files(Dir.tmpdir)
 
