@@ -2,7 +2,7 @@ RSpec.describe ConvertApi::Task do
   let(:task) { described_class.new(from_format, to_format, params) }
   let(:from_format) { 'txt' }
   let(:to_format) { 'pdf' }
-  let(:params) { { File: 'https://www.w3.org/TR/PNG/iso_8859-1.txt' } }
+  let(:params) { { File: 'https://www.w3.org/TR/2003/REC-PNG-20031110/iso_8859-1.txt' } }
 
   describe '#run' do
     subject { task.run }

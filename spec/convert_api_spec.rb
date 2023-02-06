@@ -81,7 +81,7 @@ RSpec.describe ConvertApi do
         ConvertApi::Result.new(
           'ConversionCost' => 1,
           'Files' => [
-            'Url' => 'https://www.w3.org/TR/PNG/iso_8859-1.txt',
+            'Url' => 'https://www.w3.org/TR/2003/REC-PNG-20031110/iso_8859-1.txt',
           ],
         )
       end
