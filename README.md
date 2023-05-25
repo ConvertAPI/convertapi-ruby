@@ -75,7 +75,7 @@ result = ConvertApi.convert(
 #### Additional conversion parameters
 
 ConvertAPI accepts extra conversion parameters depending on converted formats. All conversion 
-parameters and explanations can be found [here](https://www.convertapi.com).
+parameters and explanations can be found [here](https://www.convertapi.com/doc/supported-formats).
 
 ```ruby
 result = ConvertApi.convert(
