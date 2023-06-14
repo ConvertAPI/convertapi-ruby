@@ -28,6 +28,12 @@ module ConvertApi
       'Accept' => 'application/json'
     }
 
+    # Parameters that are always on the URL, even for POST
+    POST_URL_PARAMS = [
+      :WebHook,
+      :JobId
+    ].freeze
+
     def get(path, params = {}, options = {})
       handle_response do
         request = Net::HTTP::Get.new(request_uri(path, params), DEFAULT_HEADERS)
@@ -38,7 +44,7 @@ module ConvertApi
 
     def post(path, params, options = {})
       handle_response do
-        request = Net::HTTP::Post.new(request_uri(path), DEFAULT_HEADERS)
+        request = Net::HTTP::Post.new(request_uri(path, post_url_params(params)), DEFAULT_HEADERS)
         request.form_data = build_form_data(params)
 
         http(options).request(request)
@@ -113,14 +119,20 @@ module ConvertApi
       data = {}
 
       params.each do |key, value|
-        if value.is_a?(Array)
-          value.each_with_index { |v, i| data["#{key}[#{i}]"] = v }
-        else
-          data[key] = value
+        unless POST_URL_PARAMS.include?(key)
+          if value.is_a?(Array)
+            value.each_with_index { |v, i| data["#{key}[#{i}]"] = v }
+          else
+            data[key] = value
+          end
         end
       end
 
       data
+    end
+
+    def post_url_params(params)
+      params.select { |k, v| POST_URL_PARAMS.include?(k) }
     end
 
     def base_uri

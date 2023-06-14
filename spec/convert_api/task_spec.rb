@@ -8,13 +8,17 @@ RSpec.describe ConvertApi::Task, '#run' do
   let(:file) { 'https://www.w3.org/TR/2003/REC-PNG-20031110/iso_8859-1.txt' }
   let(:result) { double }
 
-  it 'executes task and returns result' do
-    expect(ConvertApi.client).to(
-      receive(:post).with('convert/txt/to/pdf', instance_of(Hash), instance_of(Hash)).and_return(result)
-    )
+  shared_examples 'successful task' do
+    it 'executes task and returns result' do
+      expect(ConvertApi.client).to(
+        receive(:post).with('convert/txt/to/pdf', instance_of(Hash), instance_of(Hash)).and_return(result)
+      )
 
-    expect(subject).to be_instance_of(ConvertApi::Result)
+      expect(subject).to be_instance_of(ConvertApi::Result)
+    end
   end
+
+  it_behaves_like 'successful task'
 
   context 'with converter' do
     let(:params) { { File: file, Converter: 'openoffice' } }
@@ -52,6 +56,51 @@ RSpec.describe ConvertApi::Task, '#run' do
       )
 
       expect(subject).to be_instance_of(ConvertApi::Result)
+    end
+
+    it 'executes task and returns result' do
+      expect(ConvertApi.client).to(
+        receive(:post).with('convert/txt/to/pdf', instance_of(Hash), instance_of(Hash)).and_return(result)
+      )
+
+      expect(subject).to be_instance_of(ConvertApi::Result)
+    end
+  end
+
+
+  describe 'async' do
+    shared_examples 'successful async task' do
+      it 'submits an async task and returns result' do
+        expect(ConvertApi.client).to(
+          receive(:post).with('async/convert/txt/to/pdf', instance_of(Hash), instance_of(Hash)).and_return(result)
+        )
+
+        expect(subject).to be_instance_of(ConvertApi::AsyncResult)
+      end
+    end
+
+    context 'Async: false' do
+      let(:params) { { Async: false, File: file } }
+
+      it_behaves_like 'successful task'
+    end
+
+    context 'Async: "false"' do
+      let(:params) { { Async: 'false', File: file } }
+
+      it_behaves_like 'successful task'
+    end
+
+    context 'Async: true' do
+      let(:params) { { Async: true, File: file } }
+
+      it_behaves_like 'successful async task'
+    end
+
+    context 'Async: "true"' do
+      let(:params) { { Async: "true", File: file } }
+
+      it_behaves_like 'successful async task'
     end
   end
 end

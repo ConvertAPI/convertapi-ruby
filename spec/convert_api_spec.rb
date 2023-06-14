@@ -112,6 +112,31 @@ RSpec.describe ConvertApi do
         expect { subject }.to raise_error(ConvertApi::FormatError)
       end
     end
+
+    context 'async' do
+      shared_examples 'successful async conversion' do
+        it 'returns result' do
+          expect(subject).to be_instance_of(ConvertApi::AsyncResult)
+          expect(subject.job_id).to be_a_kind_of(String)
+        end
+      end
+
+      context 'with web resource' do
+        let(:from_format) { 'web' }
+        let(:params) { {Async: true, Url: 'http://convertapi.com' } }
+
+        it_behaves_like 'successful async conversion'
+      end
+
+      context 'with multiple files' do
+        let(:to_format) { 'zip' }
+        let(:params) { { Async: true, Files: [file1, file2] } }
+        let(:file1) { 'examples/files/test.pdf' }
+        let(:file2) { ConvertApi::UploadIO.new('examples/files/test.pdf', 'test2.pdf') }
+
+        it_behaves_like 'successful async conversion'
+      end
+    end
   end
 
   describe '.user' do

@@ -3,31 +3,44 @@ module ConvertApi
     def initialize(from_format, to_format, params, conversion_timeout: nil)
       @from_format = from_format
       @to_format = to_format
-      @params = params
       @conversion_timeout = conversion_timeout || config.conversion_timeout
-    end
-
-    def run
-      params = normalize_params(@params).merge(
+      @params = normalize_params(params).merge(
         Timeout: @conversion_timeout,
         StoreFile: true,
       )
+      @async = @params.delete(:Async)
+      @converter = detect_converter
+    end
 
-      from_format = @from_format || detect_format(params)
+    attr_reader :converter
+
+    def run
       read_timeout = @conversion_timeout + config.conversion_timeout_delta if @conversion_timeout
-      converter = detect_converter(params)
-      converter_path = converter ? "/converter/#{converter}" : ''
 
       response = ConvertApi.client.post(
-        "convert/#{from_format}/to/#{@to_format}#{converter_path}",
-        params,
+        request_path,
+        @params,
         read_timeout: read_timeout,
       )
+
+      return AsyncResult.new(response) if async?
 
       Result.new(response)
     end
 
     private
+
+    def async?
+      @async.to_s.downcase == 'true'
+    end
+
+    def request_path
+      from_format = @from_format || detect_format
+      converter_path = converter ? "/converter/#{converter}" : ''
+      async = async? ? 'async/' : ''
+
+      "#{async}convert/#{from_format}/to/#{@to_format}#{converter_path}"
+    end
 
     def normalize_params(params)
       result = {}
@@ -62,16 +75,16 @@ module ConvertApi
       files
     end
 
-    def detect_format(params)
-      return DEFAULT_URL_FORMAT if params[:Url]
+    def detect_format
+      return DEFAULT_URL_FORMAT if @params[:Url]
 
-      resource = params[:File] || Array(params[:Files]).first
+      resource = @params[:File] || Array(@params[:Files]).first
 
       FormatDetector.new(resource, @to_format).run
     end
 
-    def detect_converter(params)
-      params.each do |key, value|
+    def detect_converter
+      @params.each do |key, value|
         return value if key.to_s.downcase == 'converter'
       end
 
