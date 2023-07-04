@@ -113,7 +113,7 @@ Set config `base_uri` attribute to use other service domains. Dedicated to the r
 
 ```ruby
 ConvertApi.configure do |config|
-  config.base_uri = URI('https://v2.convertapi.com/')
+  config.base_uri = URI('https://eu-v2.convertapi.com/')
 end
 ```
 
