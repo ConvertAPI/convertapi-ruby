@@ -107,6 +107,17 @@ user_info = ConvertApi.user
 puts user_info['SecondsLeft']
 ```
 
+### Alternative domain
+
+Set config `base_uri` attribute to use other service domains. Dedicated to the region [domain list](https://www.convertapi.com/doc/servers-location).
+
+```ruby
+ConvertApi.configure do |config|
+  config.base_uri = URI('https://v2.convertapi.com/')
+end
+```
+
+
 ### More examples
 
 Find more advanced examples in the [examples/](https://github.com/ConvertAPI/convertapi-ruby/tree/master/examples) folder.
