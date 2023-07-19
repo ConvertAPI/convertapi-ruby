@@ -15,10 +15,11 @@ module ConvertApi
 
       from_format = @from_format || detect_format(params)
       read_timeout = @conversion_timeout + config.conversion_timeout_delta if @conversion_timeout
-      converter = params[:converter] ? "/converter/#{params[:converter]}" : ''
+      converter = detect_converter(params)
+      converter_path = converter ? "/converter/#{converter}" : ''
 
       response = ConvertApi.client.post(
-        "convert/#{from_format}/to/#{@to_format}#{converter}",
+        "convert/#{from_format}/to/#{@to_format}#{converter_path}",
         params,
         read_timeout: read_timeout,
       )
@@ -67,6 +68,14 @@ module ConvertApi
       resource = params[:File] || Array(params[:Files]).first
 
       FormatDetector.new(resource, @to_format).run
+    end
+
+    def detect_converter(params)
+      params.each do |key, value|
+        return value if key.to_s.downcase == 'converter'
+      end
+
+      nil
     end
 
     def config
