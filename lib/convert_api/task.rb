@@ -33,10 +33,10 @@ module ConvertApi
       result = {}
 
       symbolize_keys(params).each do |key, value|
-        case key
-        when :File
-          result[:File] = FileParam.build(value)
-        when :Files
+        case
+        when key != :StoreFile && key.to_s.end_with?('File')
+          result[key] = FileParam.build(value)
+        when key == :Files
           result[:Files] = files_batch(value)
         else
           result[key] = value
