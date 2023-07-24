@@ -5,6 +5,7 @@ require 'convert_api/client'
 require 'convert_api/errors'
 require 'convert_api/result'
 require 'convert_api/result_file'
+require 'convert_api/async_result'
 require 'convert_api/upload_io'
 require 'convert_api/file_param'
 require 'convert_api/format_detector'
@@ -25,6 +26,13 @@ module ConvertApi
 
   def convert(to_format, params, from_format: nil, conversion_timeout: nil)
     Task.new(from_format, to_format, params, conversion_timeout: conversion_timeout).run
+  end
+
+  # Poll ConvertAPI for job status
+  # Raises ClientError with status code 202 if the job is not complete yet
+  # Raises ClientError with status code 404 if the job is not found
+  def poll(job_id)
+    Result.new(client.get("async/job/#{job_id}"))
   end
 
   def user
