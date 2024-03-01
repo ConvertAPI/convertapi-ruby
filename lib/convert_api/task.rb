@@ -8,10 +8,10 @@ module ConvertApi
     end
 
     def run
-      params = {
+      params = normalize_params(@params).merge(
         Timeout: @conversion_timeout,
         StoreFile: false
-      }.merge(normalize_params(@params))
+      )
       
 
       from_format = @from_format || detect_format(params)
