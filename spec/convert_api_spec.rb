@@ -10,15 +10,18 @@ RSpec.describe ConvertApi do
 
   describe '.configure' do
     let(:api_secret) { 'test_secret' }
+    let(:token) { 'test_token' }
     let(:conversion_timeout) { 20 }
 
     it 'configures' do
       described_class.configure do |config|
         config.api_secret = api_secret
+        config.token = token
         config.conversion_timeout = conversion_timeout
       end
 
       expect(described_class.config.api_secret).to eq(api_secret)
+      expect(described_class.config.token).to eq(token)
       expect(described_class.config.conversion_timeout).to eq(conversion_timeout)
     end
   end
@@ -89,11 +92,11 @@ RSpec.describe ConvertApi do
       it_behaves_like 'successful conversion'
     end
 
-    context 'when secret is not set' do
-      before { ConvertApi.config.api_secret = nil }
+    context 'when token is not set' do
+      before { ConvertApi.config.token = nil }
 
       it 'raises error' do
-        expect { subject }.to raise_error(ConvertApi::SecretError, /not configured/)
+        expect { subject }.to raise_error(ConvertApi::TokenError, /not configured/)
       end
     end
 
