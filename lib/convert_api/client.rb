@@ -101,10 +101,10 @@ module ConvertApi
     end
 
     def request_uri(path, params = {})
-      raise(TokenError, 'Token not configured') if config.token.nil?
+      raised_without_authentication
 
-      params_with_token = params.merge(Token: config.token)
-      query = URI.encode_www_form(params_with_token)
+      params_with_authentication = params.merge(current_authentication)
+      query = URI.encode_www_form(params_with_authentication)
 
       base_uri.path + path + '?' + query
     end
@@ -121,6 +121,19 @@ module ConvertApi
       end
 
       data
+    end
+
+    def raised_without_authentication
+      return unless current_authentication.nil?
+
+      raise(SecretError, 'API secret not configured')
+    end
+
+    def current_authentication
+      return { Token: config.token } unless config.token.nil?
+      return { Secret: config.api_secret } unless config.api_secret.nil?
+
+      nil
     end
 
     def base_uri
