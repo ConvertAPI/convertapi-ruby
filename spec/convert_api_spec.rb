@@ -92,11 +92,11 @@ RSpec.describe ConvertApi do
       it_behaves_like 'successful conversion'
     end
 
-    context 'when token is not set' do
-      before { ConvertApi.config.token = nil }
+    context 'when secret is not set' do
+      before { ConvertApi.config.api_secret = nil }
 
       it 'raises error' do
-        expect { subject }.to raise_error(ConvertApi::TokenError, /not configured/)
+        expect { subject }.to raise_error(ConvertApi::SecretError, /not configured/)
       end
     end
 
