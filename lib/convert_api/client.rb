@@ -101,9 +101,9 @@ module ConvertApi
     end
 
     def request_uri(path, params = {})
-      raise(SecretError, 'API secret not configured') if current_authentication.nil?
+      raise(SecretError, 'API secret not configured') if authentication.nil?
 
-      params_with_authentication = params.merge(current_authentication)
+      params_with_authentication = params.merge(authentication)
       query = URI.encode_www_form(params_with_authentication)
 
       base_uri.path + path + '?' + query
@@ -123,7 +123,7 @@ module ConvertApi
       data
     end
 
-    def current_authentication
+    def authentication
       return { Token: config.token } unless config.token.nil?
       return { Secret: config.api_secret } unless config.api_secret.nil?
 
