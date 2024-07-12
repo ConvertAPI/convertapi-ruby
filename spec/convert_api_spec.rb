@@ -93,18 +93,18 @@ RSpec.describe ConvertApi do
     end
 
     context 'when token is not set' do
-      before { ConvertApi.config.token = nil }
+      before { described_class.config.token = nil }
 
       it 'raises error' do
         expect { subject }.to raise_error(ConvertApi::TokenError, /not configured/)
       end
     end
 
-    context 'with invalid secret' do
-      before { ConvertApi.config.api_secret = 'invalid' }
+    context 'with invalid token' do
+      before { described_class.config.token = 'invalid' }
 
       it 'raises error' do
-        expect { subject }.to raise_error(ConvertApi::ClientError, /bad secret/)
+        expect { subject }.to raise_error(ConvertApi::ClientError)
       end
     end
 
