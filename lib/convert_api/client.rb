@@ -101,7 +101,7 @@ module ConvertApi
     end
 
     def request_uri(path, params = {})
-      raise(SecretError, 'API secret not configured') if authentication.nil?
+      raise(AuthenticationError, 'API secret or Token not configured') if authentication.nil?
 
       params_with_authentication = params.merge(authentication)
       query = URI.encode_www_form(params_with_authentication)
