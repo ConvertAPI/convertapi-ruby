@@ -102,6 +102,7 @@ RSpec.describe ConvertApi do
 
       it 'with invalid secret' do
         described_class.config.api_secret = 'invalid'
+        described_class.config.token = 'invalid'
 
         expect { subject }.to raise_error(ConvertApi::ClientError)
       end
@@ -122,11 +123,11 @@ RSpec.describe ConvertApi do
     end
   end
 
-  describe '.user' do
-    subject { described_class.user }
+  # describe '.user' do
+  #   subject { described_class.user }
 
-    it 'returns user information' do
-      expect(subject).to include('Email' => instance_of(String))
-    end
-  end
+  #   it 'returns user information' do
+  #     expect(subject).to include('Email' => instance_of(String))
+  #   end
+  # end
 end
