@@ -3,8 +3,9 @@ require 'tmpdir'
 
 ConvertApi.configure do |config|
   config.api_secret = ENV['CONVERT_API_SECRET'] # your api secret
+  # or
+  config.token = ENV['CONVERT_API_TOKEN'] # your token
 end
-
 # Example of converting Web Page URL to PDF file
 # https://www.convertapi.com/web-to-pdf
 
