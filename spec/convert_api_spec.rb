@@ -123,11 +123,11 @@ RSpec.describe ConvertApi do
     end
   end
 
-  # describe '.user' do
-  #   subject { described_class.user }
+  describe '.user' do
+    subject { described_class.user }
 
-  #   it 'returns user information' do
-  #     expect(subject).to include('Email' => instance_of(String))
-  #   end
-  # end
+    xit 'returns user information' do
+      expect(subject).to include('Email' => instance_of(String))
+    end
+  end
 end
