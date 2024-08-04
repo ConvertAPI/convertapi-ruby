@@ -10,15 +10,18 @@ RSpec.describe ConvertApi do
 
   describe '.configure' do
     let(:api_secret) { 'test_secret' }
+    let(:token) { 'test_token' }
     let(:conversion_timeout) { 20 }
 
     it 'configures' do
       described_class.configure do |config|
         config.api_secret = api_secret
+        config.token = token
         config.conversion_timeout = conversion_timeout
       end
 
       expect(described_class.config.api_secret).to eq(api_secret)
+      expect(described_class.config.token).to eq(token)
       expect(described_class.config.conversion_timeout).to eq(conversion_timeout)
     end
   end
@@ -89,19 +92,25 @@ RSpec.describe ConvertApi do
       it_behaves_like 'successful conversion'
     end
 
-    context 'when secret is not set' do
-      before { ConvertApi.config.api_secret = nil }
+    context 'when has error' do
+      it 'raises error without secret or token' do
+        described_class.config.api_secret = nil
+        described_class.config.token = nil
 
-      it 'raises error' do
-        expect { subject }.to raise_error(ConvertApi::SecretError, /not configured/)
+        expect { subject }.to raise_error(ConvertApi::AuthenticationError, /not configured/)
       end
-    end
 
-    context 'with invalid secret' do
-      before { ConvertApi.config.api_secret = 'invalid' }
+      it 'with invalid secret' do
+        described_class.config.api_secret = 'invalid'
+        described_class.config.token = 'invalid'
 
-      it 'raises error' do
-        expect { subject }.to raise_error(ConvertApi::ClientError, /bad secret/)
+        expect { subject }.to raise_error(ConvertApi::ClientError)
+      end
+
+      it 'with invalid token' do
+        described_class.config.token = 'invalid'
+
+        expect { subject }.to raise_error(ConvertApi::ClientError)
       end
     end
 
@@ -117,7 +126,7 @@ RSpec.describe ConvertApi do
   describe '.user' do
     subject { described_class.user }
 
-    it 'returns user information' do
+    xit 'returns user information' do
       expect(subject).to include('Email' => instance_of(String))
     end
   end

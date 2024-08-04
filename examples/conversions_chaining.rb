@@ -3,6 +3,8 @@ require 'tmpdir'
 
 ConvertApi.configure do |config|
   config.api_secret = ENV['CONVERT_API_SECRET'] # your api secret
+  # or
+  config.token = ENV['CONVERT_API_TOKEN'] # your token
 end
 
 # Short example of conversions chaining, the PDF pages extracted and saved as separated JPGs and then ZIP'ed

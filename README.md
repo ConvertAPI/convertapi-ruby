@@ -23,7 +23,7 @@ gem 'convert_api'
 
 ### Configuration
 
-You can get your secret at https://www.convertapi.com/a
+You can get your secret at https://www.convertapi.com/a/auth
 
 ```ruby
 ConvertApi.configure do |config|
@@ -31,9 +31,18 @@ ConvertApi.configure do |config|
 end
 ```
 
+Or
+
+You can get your token at https://www.convertapi.com/a/access-tokens
+```ruby
+ConvertApi.configure do |config|
+  config.token = 'your-token'
+end
+```
+
 ### File conversion
 
-Example to convert file to PDF. All supported formats and options can be found 
+Example to convert file to PDF. All supported formats and options can be found
 [here](https://www.convertapi.com/doc/supported-formats).
 
 ```ruby
@@ -126,6 +135,10 @@ Find more advanced examples in the [examples/](https://github.com/ConvertAPI/con
 ## Development
 
 Run `CONVERT_API_SECRET=your_secret rake spec` to run the tests.
+
+Or
+
+Run `CONVERT_API_TOKEN=your_token rake spec` to run the tests.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
