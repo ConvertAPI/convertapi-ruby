@@ -113,7 +113,7 @@ You can always check your remaining seconds programmatically by fetching [user i
 ```ruby
 user_info = ConvertApi.user
 
-puts user_info['SecondsLeft']
+puts user_info['ConversionsConsumed']
 ```
 
 ### Alternative domain
