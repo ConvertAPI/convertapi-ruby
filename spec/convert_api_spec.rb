@@ -102,13 +102,14 @@ RSpec.describe ConvertApi do
 
       it 'with invalid secret' do
         described_class.config.api_secret = 'invalid'
-        described_class.config.token = 'invalid'
+        described_class.config.token = nil
 
         expect { subject }.to raise_error(ConvertApi::ClientError)
       end
 
       it 'with invalid token' do
         described_class.config.token = 'invalid'
+        described_class.config.api_secret = nil
 
         expect { subject }.to raise_error(ConvertApi::ClientError)
       end
