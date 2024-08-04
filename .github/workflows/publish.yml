@@ -1,0 +1,18 @@
+name: Publish gem to rubygems
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+
+      # setup .gem/credentials
+      - run: mkdir -p ~/.gem
+      - run: echo -e "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
+      - run: chmod 0600 ~/.gem/credentials
+
+      - run: gem build convert_api.gemspec --output=release.gem
+      - run: gem push release.gem
