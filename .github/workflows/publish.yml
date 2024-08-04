@@ -11,7 +11,10 @@ jobs:
 
       # setup .gem/credentials
       - run: mkdir -p ~/.gem
-      - run: echo -e "---\n:rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
+      - run: >-
+          echo -e "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
+        env:
+          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
       - run: chmod 0600 ~/.gem/credentials
 
       - run: gem build convert_api.gemspec --output=release.gem
