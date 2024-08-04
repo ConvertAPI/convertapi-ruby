@@ -124,8 +124,8 @@ module ConvertApi
     end
 
     def authentication
-      return { Token: config.token } unless config.token.nil?
       return { Secret: config.api_secret } unless config.api_secret.nil?
+      return { Token: config.token } unless config.token.nil?
 
       nil
     end
