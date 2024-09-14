@@ -9,8 +9,6 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    ConvertApi.config.api_secret = ENV['CONVERT_API_SECRET']
-    # or
-    ConvertApi.config.token = ENV['CONVERT_API_TOKEN']
+    ConvertApi.config.api_credentials = ENV['CONVERT_API_SECRET']
   end
 end

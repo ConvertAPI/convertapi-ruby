@@ -2,9 +2,7 @@ require 'convert_api'
 require 'tmpdir'
 
 ConvertApi.configure do |config|
-  config.api_secret = ENV['CONVERT_API_SECRET'] # your api secret
-  # or
-  config.token = ENV['CONVERT_API_TOKEN'] # your token
+  config.api_credentials = ENV['CONVERT_API_SECRET'] # your api secret or token
 end
 
 # Example of extracting first and last pages from PDF and then merging them back to new PDF.

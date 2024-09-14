@@ -1,7 +1,6 @@
 module ConvertApi
   class Configuration
-    attr_accessor :api_secret
-    attr_accessor :token
+    attr_accessor :api_credentials
     attr_accessor :base_uri
     attr_accessor :connect_timeout
     attr_accessor :read_timeout

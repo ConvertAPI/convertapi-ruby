@@ -9,19 +9,16 @@ RSpec.describe ConvertApi do
   end
 
   describe '.configure' do
-    let(:api_secret) { 'test_secret' }
-    let(:token) { 'test_token' }
+    let(:api_credentials) { 'test_secret' }
     let(:conversion_timeout) { 20 }
 
     it 'configures' do
       described_class.configure do |config|
-        config.api_secret = api_secret
-        config.token = token
+        config.api_credentials = api_credentials
         config.conversion_timeout = conversion_timeout
       end
 
-      expect(described_class.config.api_secret).to eq(api_secret)
-      expect(described_class.config.token).to eq(token)
+      expect(described_class.config.api_credentials).to eq(api_credentials)
       expect(described_class.config.conversion_timeout).to eq(conversion_timeout)
     end
   end
@@ -93,23 +90,14 @@ RSpec.describe ConvertApi do
     end
 
     context 'when has error' do
-      it 'raises error without secret or token' do
-        described_class.config.api_secret = nil
-        described_class.config.token = nil
+      it 'raises error without credentials' do
+        described_class.config.api_credentials = nil
 
         expect { subject }.to raise_error(ConvertApi::AuthenticationError, /not configured/)
       end
 
-      it 'with invalid secret' do
-        described_class.config.api_secret = 'invalid'
-        described_class.config.token = nil
-
-        expect { subject }.to raise_error(ConvertApi::ClientError)
-      end
-
-      it 'with invalid token' do
-        described_class.config.token = 'invalid'
-        described_class.config.api_secret = nil
+      it 'with invalid credentials' do
+        described_class.config.api_credentials = 'invalid'
 
         expect { subject }.to raise_error(ConvertApi::ClientError)
       end
