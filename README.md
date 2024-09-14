@@ -108,7 +108,7 @@ puts result.files[0].size
 
 ### User information
 
-You can always check your remaining seconds programmatically by fetching [user information](https://www.convertapi.com/doc/user).
+You can always check your usage by fetching [user information](https://www.convertapi.com/doc/user).
 
 ```ruby
 user_info = ConvertApi.user
