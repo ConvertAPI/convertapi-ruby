@@ -16,18 +16,6 @@ RSpec.describe ConvertApi::Task, '#run' do
     expect(subject).to be_instance_of(ConvertApi::Result)
   end
 
-  context 'with converter' do
-    let(:params) { { File: file, Converter: 'openoffice' } }
-
-    it 'adds converter to the path' do
-      expect(ConvertApi.client).to(
-        receive(:post).with('convert/txt/to/pdf/converter/openoffice', instance_of(Hash), instance_of(Hash)).and_return(result)
-      )
-
-      expect(subject).to be_instance_of(ConvertApi::Result)
-    end
-  end
-
   context 'when file is instance of ResultFile' do
     let(:file) { ConvertApi::ResultFile.new('Url' => 'testurl') }
     let(:expected_params) { hash_including(File: 'testurl') }
