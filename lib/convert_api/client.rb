@@ -30,7 +30,7 @@ module ConvertApi
 
     def get(path, params = {}, options = {})
       handle_response do
-        request = Net::HTTP::Get.new(request_uri(path, params), DEFAULT_HEADERS)
+        request = Net::HTTP::Get.new(request_uri(path, params), headers_with_auth)
 
         http(options).request(request)
       end
@@ -38,7 +38,7 @@ module ConvertApi
 
     def post(path, params, options = {})
       handle_response do
-        request = Net::HTTP::Post.new(request_uri(path), DEFAULT_HEADERS)
+        request = Net::HTTP::Post.new(request_uri(path), headers_with_auth)
         request.form_data = build_form_data(params)
 
         http(options).request(request)
@@ -101,12 +101,7 @@ module ConvertApi
     end
 
     def request_uri(path, params = {})
-      raise(AuthenticationError, 'API secret or Token not configured') if authentication.nil?
-
-      params_with_authentication = params.merge(authentication)
-      query = URI.encode_www_form(params_with_authentication)
-
-      base_uri.path + path + '?' + query
+      base_uri.path + path + '?' + URI.encode_www_form(params)
     end
 
     def build_form_data(params)
@@ -123,11 +118,16 @@ module ConvertApi
       data
     end
 
-    def authentication
-      return { Secret: config.api_secret } unless config.api_secret.nil?
-      return { Token: config.token } unless config.token.nil?
+    def headers_with_auth
+      DEFAULT_HEADERS.merge(auth_headers)
+    end
 
-      nil
+    def auth_headers
+      { 'Authorization' => "Bearer #{api_credentials}" }
+    end
+
+    def api_credentials
+      config.api_credentials || raise(AuthenticationError, 'API credentials not configured')
     end
 
     def base_uri
